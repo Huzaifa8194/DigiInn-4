@@ -1,0 +1,12 @@
+---
+import Digi from '../../layouts/Digi.astro';
+import ContentCards from '../../components/ContentCards.astro';
+import { projects } from '../../data/digi-content';
+---
+<Digi title="Selected Work | DigiInn360" description="Explore applications DigiInn360 built for file sharing and employee leave management.">
+  <section class="inner-hero">
+    <h1>Selected Work</h1>
+    <p>Explore applications DigiInn360 built for file sharing and employee leave management.</p>
+  </section>
+  <ContentCards id="selected-work" kicker="DIGIINN360" title="Project portfolio" entries={projects} />
+</Digi>

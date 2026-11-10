@@ -119,7 +119,7 @@ export function initCore(){
  const resize=()=>{renderer.setSize(host.clientWidth,host.clientHeight);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(host);resize();
  const fallback=host.querySelector<SVGElement>('.core-fallback');if(fallback)fallback.style.opacity='0';
  const state={p:0};const story=document.querySelector('.security-story');
- if(story){ScrollTrigger.create({trigger:host.parentElement,start:()=> 'top '+Math.max(24,(innerHeight-host.parentElement!.offsetHeight)/2)+'px',endTrigger:story,end:'bottom bottom',pin:host.parentElement,pinSpacing:false,invalidateOnRefresh:true});
+ if(story){ScrollTrigger.create({trigger:host.parentElement,start:()=> 'top '+(matchMedia('(max-width: 680px)').matches ? 24 : Math.max(24,(innerHeight-host.parentElement!.offsetHeight)/2))+'px',endTrigger:story,end:'bottom bottom',pin:host.parentElement,pinSpacing:false,invalidateOnRefresh:true});
  const chapters=[...document.querySelectorAll<HTMLElement>('.security-chapter')];
  const follow=gsap.quickTo(state,'p',{duration:.7,ease:'power2.out'});
  ScrollTrigger.create({trigger:story,start:'top top',end:'bottom bottom',invalidateOnRefresh:true,onUpdate:self=>{

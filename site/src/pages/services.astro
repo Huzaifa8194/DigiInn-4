@@ -1,5 +1,59 @@
 ---
 import Digi from '../layouts/Digi.astro';
-const services=[{id:'cybersecurity',title:'Cybersecurity',lead:'Understand your exposure. Protect your digital assets.',text:'We help businesses address vulnerabilities across systems, networks and endpoints. Start with a conversation about your environment, your concerns and the assets that matter most.',items:['Threat detection and prevention','Endpoint security solutions','Network defense and firewalls','Data encryption and privacy','Penetration testing and security audits','Identity and access management']},{id:'software',title:'Software development',lead:'Software shaped around your business.',text:'From a customer-facing website to a mobile or desktop application, we develop solutions tailored to your requirements. Tell us what you need your software to do and how your team will use it.',items:['Website solutions','Mobile application development','Desktop application development','Business-specific software requirements']},{id:'training',title:'Training & awareness',lead:'Give your people the knowledge to act.',text:'Build technical capability and security awareness with training tailored to your team. We cover software development and cybersecurity practices so people can recognize risks and make better decisions.',items:['Cybersecurity awareness training','Software development training','Security best practices','Tailored programs for your team']}];
+
+const services = [
+  {
+    id: 'cybersecurity',
+    title: 'Cybersecurity',
+    intro: 'Find where your business is exposed, then put controls in place around the systems and information you depend on.',
+    items: [
+      ['Threat detection and prevention', 'Monitor system and network activity, investigate suspicious behavior and plan how to respond to incidents.'],
+      ['Endpoint security', 'Protect laptops, desktops and other devices against malware and unauthorized activity.'],
+      ['Network defense and firewalls', 'Review traffic flows and firewall rules to reduce unnecessary exposure between systems.'],
+      ['Data encryption and privacy', 'Protect sensitive information in storage and in transit. Review who can access it and how access is granted.'],
+      ['Penetration testing and security audits', 'Test agreed systems for weaknesses and use the findings to prioritize fixes.'],
+    ],
+  },
+  {
+    id: 'software',
+    title: 'Software development',
+    intro: 'We build websites, mobile apps and desktop software around the tasks your customers and teams need to complete.',
+    items: [
+      ['Websites and web applications', 'Build a customer-facing website or a browser-based tool that supports your business processes.'],
+      ['Mobile applications', 'Give staff and customers access to the workflows they need while away from a desk.'],
+      ['Desktop applications', 'Develop software for work that needs to happen on a workstation.'],
+    ],
+  },
+  {
+    id: 'training',
+    title: 'Training and awareness',
+    intro: 'Give your team practice with the technical and security decisions they make at work.',
+    items: [
+      ['Security awareness', 'Help staff recognize suspicious requests, handle sensitive data and report potential incidents.'],
+      ['Software development training', 'Build practical development skills with training tailored to the team’s experience and work.'],
+    ],
+  },
+];
 ---
-<Digi title="Our expertise | DigiInn360"><section class="inner-hero"><p class="section-kicker">PROTECT. CREATE. EMPOWER.</p><h1>A complete perspective.<br/><span class="muted-title">Practical expertise.</span></h1><p>Explore the capabilities that connect your technology, security and people.</p></section>{services.map(s=><section class="detail-block paper" id={s.id}><div><p class="section-kicker">{s.lead}</p><h2>{s.title}</h2></div><div><p>{s.text}</p><ul>{s.items.map(i=><li>{i}</li>)}</ul><a class="text-link dark-link" href={`mailto:info@digiinn360.com?subject=${encodeURIComponent('Enquiry: '+s.title)}`}>Discuss {s.title.toLowerCase()} <span>↗</span></a></div></section>)}</Digi>
+<Digi title="Cybersecurity, software and training services | DigiInn360" description="Explore DigiInn360 services in cybersecurity, custom software development and practical training.">
+  <section class="inner-hero">
+    <p class="section-kicker">OUR EXPERTISE</p>
+    <h1>Services</h1>
+    <p>Protect your systems, build software around your workflows and help your team work securely.</p>
+    <div class="actions" aria-label="Service categories">
+      {services.map(service => <a class="text-link" href={`#${service.id}`}>{service.title} <span aria-hidden="true">↓</span></a>)}
+    </div>
+  </section>
+  {services.map(service => (
+    <section class="detail-block paper" id={service.id}>
+      <div>
+        <h2>{service.title}</h2>
+        <p class="detail-intro">{service.intro}</p>
+        <a class="text-link dark-link" href="/contact/">Talk to our team <span aria-hidden="true">↗</span></a>
+      </div>
+      <dl class="service-details">
+        {service.items.map(([title, description]) => <div><dt>{title}</dt><dd>{description}</dd></div>)}
+      </dl>
+    </section>
+  ))}
+</Digi>

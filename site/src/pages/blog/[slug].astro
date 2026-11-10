@@ -1,0 +1,10 @@
+---
+import DigiEntry from '../../layouts/DigiEntry.astro';
+import { posts } from '../../data/digi-content';
+
+export function getStaticPaths() {
+  return posts.map(entry => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<DigiEntry entry={entry} collection="blog" />

@@ -1,0 +1,32 @@
+---
+import type { ContentEntry } from '../data/digi-content';
+
+interface Props {
+  id: string;
+  kicker: string;
+  title: string;
+  entries: ContentEntry[];
+  link?: { href: string; label: string };
+}
+
+const { id, kicker, title, entries, link } = Astro.props;
+const base = id === 'selected-work' ? '/projects' : '/blog';
+---
+<section class="content-list paper" id={id} aria-labelledby={`${id}-title`}>
+  <div class="content-list-heading">
+    <div>
+      <p class="section-kicker">{kicker}</p>
+      <h2 id={`${id}-title`}>{title}</h2>
+    </div>
+    {link && <a class="text-link dark-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>}
+  </div>
+  <div class="content-grid">
+    {entries.map(entry => (
+      <article class="content-card">
+        <p class="section-kicker">{entry.category}</p>
+        <h3><a href={`${base}/${entry.slug}/`}>{entry.title} <span aria-hidden="true">↗</span></a></h3>
+        <p>{entry.summary}</p>
+      </article>
+    ))}
+  </div>
+</section>
