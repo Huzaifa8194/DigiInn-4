@@ -113,15 +113,78 @@ export function initCore(){
  const shock=new THREE.Group();rig.add(shock);const rays:THREE.Mesh[]=[];for(let i=0;i<20;i++){const ray=box(.022,.2,.022,amber,.005);shock.add(ray);rays.push(ray);}
  const seal=new THREE.Mesh(new THREE.TorusGeometry(.75,.035,8,80),cyan);rig.add(seal);
 
- const resize=()=>{renderer.setSize(host.clientWidth,host.clientHeight);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(host);resize();
- const state={p:0};const story=document.querySelector('.security-story');
- if(story){ScrollTrigger.create({trigger:host.parentElement,start:()=> 'top '+(matchMedia('(max-width: 680px)').matches ? 24 : Math.max(24,(innerHeight-host.parentElement!.offsetHeight)/2))+'px',endTrigger:story,end:'bottom bottom',pin:host.parentElement,pinSpacing:false,invalidateOnRefresh:true});
- const chapters=[...document.querySelectorAll<HTMLElement>('.security-chapter')];
- const follow=gsap.quickTo(state,'p',{duration:.7,ease:'power2.out'});
- ScrollTrigger.create({trigger:story,start:'top top',end:'bottom bottom',invalidateOnRefresh:true,onUpdate:self=>{
- const positions=[0,...chapters.map(c=>c.getBoundingClientRect().top+self.scroll()+c.clientHeight*.5-innerHeight*.5)];
- const scroll=self.scroll();let target=5;for(let i=1;i<positions.length;i++){if(scroll<=positions[i]){target=i-1+THREE.MathUtils.clamp((scroll-positions[i-1])/(positions[i]-positions[i-1]),0,1);break;}}follow(target);
- }});}
+ const art = host.parentElement!;
+ const resize = () => {
+   const { clientWidth: width, clientHeight: height } = host;
+   if (!width || !height) return;
+   renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth <= 680 ? 1.25 : 1.5));
+   renderer.setSize(width, height, false);
+   camera.aspect = width / height;
+   camera.updateProjectionMatrix();
+ };
+ const ro = new ResizeObserver(resize);
+ ro.observe(host);
+ resize();
+
+ const state = { p: 0 };
+ const story = document.querySelector('.security-story');
+ const layout = gsap.matchMedia();
+ if (story) {
+   const chapters = [...story.querySelectorAll<HTMLElement>('.security-chapter')];
+   layout.add({
+     desktop: '(min-width: 681px) and (min-height: 501px)',
+     portrait: '(max-width: 680px) and (min-height: 560px) and (orientation: portrait)',
+   }, context => {
+     const portrait = Boolean(context.conditions?.portrait);
+     story.classList.toggle('has-portrait-motion', portrait);
+     const follow = gsap.quickTo(state, 'p', { duration: portrait ? 0.42 : 0.7, ease: 'power2.out' });
+     const end = portrait ? 'bottom 52%' : 'bottom bottom';
+     ScrollTrigger.create({
+       trigger: art,
+       start: () => 'top ' + (portrait ? 0 : Math.max(24, (innerHeight - art.offsetHeight) / 2)) + 'px',
+       endTrigger: story,
+       end,
+       pin: art,
+       pinSpacing: false,
+       invalidateOnRefresh: true,
+       onToggle: self => art.classList.toggle('is-pinned', portrait && self.isActive),
+     });
+
+     let positions: number[] = [];
+     const update = (scroll: number) => {
+       const next = positions.findIndex(position => position > scroll);
+       if (next < 0) {
+         follow(chapters.length);
+       } else if (next === 0) {
+         follow(0);
+       } else {
+         const start = positions[next - 1];
+         follow(next - 1 + THREE.MathUtils.clamp((scroll - start) / (positions[next] - start), 0, 1));
+       }
+     };
+     ScrollTrigger.create({
+       trigger: story,
+       start: 'top top',
+       end,
+       onRefresh: self => {
+         const scroll = self.scroll();
+         const focalLine = innerHeight * (portrait ? 0.63 : 0.5);
+         positions = [0, ...chapters.map(chapter => {
+           const bounds = chapter.getBoundingClientRect();
+           return bounds.top + scroll + bounds.height * 0.5 - focalLine;
+         })];
+         update(scroll);
+       },
+       onUpdate: self => update(self.scroll()),
+     });
+
+     return () => {
+       story.classList.remove('has-portrait-motion');
+       art.classList.remove('is-pinned');
+       state.p = 0;
+     };
+   });
+ }
  let visible=true,paused=false,time=0;const io=new IntersectionObserver(e=>visible=e[0].isIntersecting);io.observe(host);
  const tick=(_t:number,dt:number)=>{if(!visible||document.hidden)return;if(!paused)time+=Math.min(dt,40)*.001;
  const p=state.p,open=smooth(.25,1.25,p),close=smooth(4.25,5,p),spread=.65+open*.35-close*.35;
@@ -164,7 +227,7 @@ export function initCore(){
  rim.intensity=40+defending*35+verification*20;rim.color.setHex(exposure>.5?0xf19465:0x81d1ec);
  renderer.render(scene,camera);if(!host.hasAttribute('data-rendered'))host.setAttribute('data-rendered','');};gsap.ticker.add(tick);
  const button=document.querySelector<HTMLButtonElement>('#motion-toggle');if(button)button.hidden=false;button?.addEventListener('click',()=>{paused=!paused;button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'▷':'Ⅱ';button.setAttribute('aria-label',paused?'Play idle animation':'Pause idle animation');});
- window.addEventListener('pagehide',()=>{gsap.ticker.remove(tick);ro.disconnect();io.disconnect();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.LineSegments)o.geometry.dispose();});materials.forEach(m=>m.dispose());env.dispose();renderer.dispose();},{once:true});
+ window.addEventListener('pagehide',()=>{gsap.ticker.remove(tick);ro.disconnect();io.disconnect();layout.revert();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.LineSegments)o.geometry.dispose();});materials.forEach(m=>m.dispose());env.dispose();renderer.dispose();},{once:true});
 }
 
 
