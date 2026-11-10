@@ -1,16 +1,21 @@
 ---
-import type { ContentEntry } from '../data/digi-content';
+interface Card {
+  title: string;
+  category: string;
+  summary: string;
+  href: string;
+  image?: string;
+}
 
 interface Props {
   id: string;
   kicker: string;
   title: string;
-  entries: ContentEntry[];
+  entries: Card[];
   link?: { href: string; label: string };
 }
 
 const { id, kicker, title, entries, link } = Astro.props;
-const base = id === 'selected-work' ? '/projects' : '/blog';
 ---
 <section class="content-list paper" id={id} aria-labelledby={`${id}-title`}>
   <div class="content-list-heading">
@@ -23,8 +28,9 @@ const base = id === 'selected-work' ? '/projects' : '/blog';
   <div class="content-grid">
     {entries.map(entry => (
       <article class="content-card">
+        {entry.image && <div class="content-card-preview"><img src={entry.image} alt="" width="1440" height="960" loading="lazy" /></div>}
         <p class="section-kicker">{entry.category}</p>
-        <h3><a href={`${base}/${entry.slug}/`}>{entry.title} <span aria-hidden="true">↗</span></a></h3>
+        <h3><a href={entry.href}>{entry.title} <span aria-hidden="true">↗</span></a></h3>
         <p>{entry.summary}</p>
       </article>
     ))}

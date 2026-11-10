@@ -71,3 +71,5 @@ export const posts: ContentEntry[] = [
     ],
   },
 ];
+
+export const postCards = posts.map(post => ({ ...post, href: `/blog/${post.slug}/` }));

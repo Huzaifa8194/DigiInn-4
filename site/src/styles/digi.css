@@ -117,3 +117,18 @@ body { --nav-height: 102px; }
   .security-chapter { max-width: 50%; padding-block: 45px; }
   .security-chapter h2 { font-size: 34px; }
 }
+
+.content-card-preview {
+  display: block;
+  margin-bottom: 22px;
+  overflow: hidden;
+  border: 1px solid #16293c33;
+  background: #e2e7ed;
+}
+.content-card-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform .25s;
+}
+.content-card:focus-within img, .content-card:hover img { transform: scale(1.03); }

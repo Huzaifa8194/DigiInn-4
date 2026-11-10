@@ -1,12 +1,21 @@
 ---
 import Digi from '../../layouts/Digi.astro';
 import ContentCards from '../../components/ContentCards.astro';
-import { projects } from '../../data/digi-content';
+import { templateCatalog, templates } from '../../data/templates';
+
+const description = 'Explore live website and software demos for retail, food service, healthcare and operations.';
 ---
-<Digi title="Selected Work | DigiInn360" description="Explore applications DigiInn360 built for file sharing and employee leave management.">
+<Digi title="Selected Work | DigiInn360" description={description}>
   <section class="inner-hero">
+    <p class="section-kicker">DIGIINN360 TEMPLATE COLLECTION</p>
     <h1>Selected Work</h1>
-    <p>Explore applications DigiInn360 built for file sharing and employee leave management.</p>
+    <p>{description}</p>
   </section>
-  <ContentCards id="selected-work" kicker="DIGIINN360" title="Project portfolio" entries={projects} />
+  <ContentCards
+    id="selected-work"
+    kicker="EXPLORE THE DEMOS"
+    title="Website and software templates"
+    entries={templates}
+    link={{ href: templateCatalog, label: 'Open the original catalog' }}
+  />
 </Digi>

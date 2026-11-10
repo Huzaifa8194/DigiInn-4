@@ -1,12 +1,12 @@
 ---
 import Digi from '../../layouts/Digi.astro';
 import ContentCards from '../../components/ContentCards.astro';
-import { posts } from '../../data/digi-content';
+import { postCards } from '../../data/digi-content';
 ---
 <Digi title="DigiInn360 Blog | DigiInn360" description="Practical notes on cybersecurity, web development and the software behind everyday business operations.">
   <section class="inner-hero">
     <h1>DigiInn360 Blog</h1>
     <p>Practical notes on cybersecurity, web development and the software behind everyday business operations.</p>
   </section>
-  <ContentCards id="latest-insights" kicker="DIGIINN360" title="Latest insights" entries={posts} />
+  <ContentCards id="latest-insights" kicker="DIGIINN360" title="Latest insights" entries={postCards} />
 </Digi>
