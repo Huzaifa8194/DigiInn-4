@@ -1,4 +1,5 @@
 ---
+import BrandGraphic from '../components/BrandGraphic.astro';
 import Digi from './Digi.astro';
 import type { ContentEntry } from '../data/digi-content';
 
@@ -10,7 +11,7 @@ interface Props {
 const { entry, collection } = Astro.props;
 ---
 <Digi title={`${entry.title} | DigiInn360`} description={entry.summary}>
-  <section class="inner-hero">
+  <section class="inner-hero"><BrandGraphic motif="window" />
     <a class="text-link" href={`/${collection}/`}>← {collection === 'projects' ? 'Selected Work' : 'Blog'}</a>
     <h1>{entry.title}</h1>
     <p>{entry.summary}</p>
@@ -20,7 +21,7 @@ const { entry, collection } = Astro.props;
       <section>
         <h2>{section.heading}</h2>
         <p>{section.text}</p>
-      </section>
+      <BrandGraphic motif="layers" /></section>
     ))}
     <a class="text-link dark-link" href={collection === 'projects' ? '/contact/' : '/services/'}>{collection === 'projects' ? 'Discuss a similar project' : 'Explore our services'} <span aria-hidden="true">↗</span></a>
   </div>

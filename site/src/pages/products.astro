@@ -1,8 +1,9 @@
 ---
+import BrandGraphic from '../components/BrandGraphic.astro';
 import Digi from '../layouts/Digi.astro';
 ---
 <Digi title="Products | DigiInn360" description="Explore pharmacy management software and tailored business tools from DigiInn360.">
-  <section class="inner-hero">
+  <section class="inner-hero"><BrandGraphic motif="window" />
     <p class="section-kicker">BUSINESS SOFTWARE</p>
     <h1>Products</h1>
     <p>Explore software for everyday operations, from managing stock and sales to routing staff approvals.</p>
@@ -11,7 +12,7 @@ import Digi from '../layouts/Digi.astro';
     <div>
       <p class="section-kicker">RETAIL PHARMACY</p>
       <h2>Pharmacy management software</h2>
-      <img class="product-image" src="/digiinn/pharmacy-management.png" alt="" loading="lazy" />
+      <figure class="product-preview"><img class="product-image" src="/digiinn/pharmacy-management.png" alt="" loading="lazy" /><span class="preview-brand">DigiInn360</span></figure>
     </div>
     <div>
       <p>Bring stock, billing and sales reporting into one workflow. DigiInn360 can tailor the software to how your pharmacy receives stock, serves customers and reviews performance.</p>
@@ -22,12 +23,12 @@ import Digi from '../layouts/Digi.astro';
       </ul>
       <a class="text-link dark-link" href="mailto:info@digiinn360.com?subject=Pharmacy%20management%20software%20enquiry">Discuss your requirements <span aria-hidden="true">↗</span></a>
     </div>
-  </section>
+  <BrandGraphic motif="layers" /></section>
   <section class="detail-block paper">
     <div><p class="section-kicker">WORKFORCE OPERATIONS</p><h2>Leave management</h2></div>
     <div>
       <p>Route employee requests through your approval structure and give staff a clear view of their request status. See how DigiInn360 implemented it in a web and mobile project.</p>
       <a class="text-link dark-link" href="/projects/leave-management-application/">View the project <span aria-hidden="true">↗</span></a>
     </div>
-  </section>
+  <BrandGraphic motif="people" /></section>
 </Digi>

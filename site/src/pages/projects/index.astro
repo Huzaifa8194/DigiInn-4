@@ -1,4 +1,5 @@
 ---
+import BrandGraphic from '../../components/BrandGraphic.astro';
 import Digi from '../../layouts/Digi.astro';
 import ContentCards from '../../components/ContentCards.astro';
 import { templateCatalog, templates } from '../../data/templates';
@@ -6,7 +7,7 @@ import { templateCatalog, templates } from '../../data/templates';
 const description = 'Explore live website and software demos for retail, food service, healthcare and operations.';
 ---
 <Digi title="Selected Work | DigiInn360" description={description}>
-  <section class="inner-hero">
+  <section class="inner-hero"><BrandGraphic motif="window" />
     <p class="section-kicker">DIGIINN360 TEMPLATE COLLECTION</p>
     <h1>Selected Work</h1>
     <p>{description}</p>

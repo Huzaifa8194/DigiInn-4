@@ -132,3 +132,61 @@ body { --nav-height: 102px; }
   transition: transform .25s;
 }
 .content-card:focus-within img, .content-card:hover img { transform: scale(1.03); }
+
+.brand-graphic {
+  --graphic-line: #87b7d1;
+  --graphic-fill: #13243a;
+  display: block;
+  width: clamp(150px, 17vw, 218px);
+  max-width: 100%;
+  height: auto;
+  flex: none;
+  color: #e3eef8;
+}
+.brand-graphic-frame { fill: var(--graphic-fill); stroke: var(--graphic-line); stroke-opacity: .65; }
+.brand-graphic-grid { fill: none; stroke: var(--graphic-line); stroke-opacity: .24; }
+.brand-graphic-motif { fill: none; stroke: var(--graphic-line); stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+.brand-graphic text { fill: currentColor; font: 600 20px Archivo, Arial, sans-serif; }
+.brand-graphic-marker { fill: var(--graphic-line); }
+.paper .brand-graphic, .contact .brand-graphic {
+  --graphic-line: #315978;
+  --graphic-fill: #e0e9ee;
+  color: #122338;
+}
+section > .brand-graphic {
+  grid-column: 1 / -1;
+  margin-top: 26px;
+  justify-self: end;
+  margin-inline-start: auto;
+}
+.inner-hero { display: flow-root; }
+.inner-hero > .brand-graphic { float: right; margin: 0 0 18px 24px; }
+.expertise-strip > .brand-graphic {
+  margin-block: 12px;
+  width: 155px;
+}
+.intro-bottom > .brand-graphic { align-self: start; }
+.core-brand, .preview-brand {
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  right: 0;
+  background: #102035;
+  color: #edf4fc;
+  padding: 3px 8px;
+  border: 1px solid #86b7d164;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.content-card-preview, .product-preview { position: relative; }
+.product-preview { margin: 24px 0 0; }
+.product-preview .product-image { margin: 0; }
+.preview-brand { top: auto; bottom: 8px; right: 8px; }
+.entry-copy section > .brand-graphic { margin-inline-start: 0; }
+
+@media (max-width: 680px) {
+  .inner-hero > .brand-graphic { float: none; margin: 0 0 20px; }
+  .core-brand { top: 0; font-size: 9px; padding: 2px 4px; }
+}

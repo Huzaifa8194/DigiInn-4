@@ -1,4 +1,5 @@
 ---
+import BrandGraphic from '../components/BrandGraphic.astro';
 import Digi from '../layouts/Digi.astro';
 
 const services = [
@@ -36,7 +37,7 @@ const services = [
 ];
 ---
 <Digi title="Cybersecurity, software and training services | DigiInn360" description="Explore DigiInn360 services in cybersecurity, custom software development and practical training.">
-  <section class="inner-hero">
+  <section class="inner-hero"><BrandGraphic motif="shield" />
     <p class="section-kicker">OUR EXPERTISE</p>
     <h1>Services</h1>
     <p>Protect your systems, build software around your workflows and help your team work securely.</p>
@@ -54,6 +55,7 @@ const services = [
       <dl class="service-details">
         {service.items.map(([title, description]) => <div><dt>{title}</dt><dd>{description}</dd></div>)}
       </dl>
+      <BrandGraphic motif={service.id === "cybersecurity" ? "shield" : service.id === "software" ? "window" : "people"} />
     </section>
   ))}
 </Digi>

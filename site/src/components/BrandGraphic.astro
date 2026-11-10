@@ -1,0 +1,26 @@
+---
+export type Motif = 'orbit' | 'shield' | 'layers' | 'signal' | 'network' | 'window' | 'people' | 'message';
+
+interface Props {
+  motif: Motif;
+}
+
+const { motif } = Astro.props;
+const shapes: Record<Motif, string> = {
+  orbit: 'M16 32a16 16 0 1 0 32 0 16 16 0 1 0-32 0 M10 32h44 M32 10v44 M20 20l24 24 M20 44l24-24',
+  shield: 'M32 12l16 6v13c0 10-6 17-16 21-10-4-16-11-16-21V18z M24 32l5 5 11-11',
+  layers: 'M12 23l20-11 20 11-20 11z M12 32l20 11 20-11 M12 41l20 11 20-11',
+  signal: 'M10 36h11l6-14 8 23 7-16h12 M13 15h38 M13 51h38',
+  network: 'M20 20l12 12 12-12 M20 44l12-12 12 12 M16 20a4 4 0 1 0 8 0 4 4 0 1 0-8 0 M40 20a4 4 0 1 0 8 0 4 4 0 1 0-8 0 M16 44a4 4 0 1 0 8 0 4 4 0 1 0-8 0 M40 44a4 4 0 1 0 8 0 4 4 0 1 0-8 0',
+  window: 'M12 17h40v30H12z M12 25h40 M20 21h2 M25 21h2 M28 31l-5 5 5 5 M36 31l5 5-5 5',
+  people: 'M25 24a7 7 0 1 0 14 0 7 7 0 1 0-14 0 M19 48v-5a13 13 0 0 1 26 0v5z M17 20a6 6 0 0 0 0 12 M47 20a6 6 0 0 1 0 12 M12 46v-5a8 8 0 0 1 4-7 M52 46v-5a8 8 0 0 0-4-7',
+  message: 'M13 16h38v25H31L20 49v-8h-7z M21 25h22 M21 32h15',
+};
+---
+<svg class="brand-graphic" viewBox="0 0 218 70" width="218" height="70" aria-hidden="true" focusable="false">
+  <rect class="brand-graphic-frame" x="1" y="1" width="216" height="68" rx="3" />
+  <path class="brand-graphic-grid" d="M70 1v68 M1 35h69 M35 1v68 M78 55h130" />
+  <path class="brand-graphic-motif" d={shapes[motif]} transform="translate(3 3)" />
+  <text x="81" y="42">DigiInn360</text>
+  <circle class="brand-graphic-marker" cx="202" cy="15" r="3" />
+</svg>
