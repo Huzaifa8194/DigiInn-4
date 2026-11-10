@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import { nav, routes, site, ui, divisions, type Lang, type PageKey } from '../data/site';
+import markLight from '../assets/img/onyx-mark-light.png';
+import Btn from './Btn.astro';
+
+interface Props { lang: Lang; page?: PageKey }
+const { lang, page } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="footer" data-tone-section="dark">
+  <div class="footer__cta">
+    <p class="footer__kicker">{ui.tagline[lang]}</p>
+    <Btn href={routes.contact[lang]} label={ui.contactCta[lang]} variant="light" />
+  </div>
+  <div class="footer__grid">
+    <div class="footer__col">
+      <h2 class="footer__h">{lang === 'fr' ? 'Le Groupe' : 'The Group'}</h2>
+      <ul>
+        {nav.map((n) => <li><a class="footer__link" href={routes[n.key][lang]} aria-current={page === n.key ? 'page' : undefined}>{n.label[lang]}</a></li>)}
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__h">{lang === 'fr' ? 'Divisions' : 'Divisions'}</h2>
+      <ul>
+        {divisions.map((d) => <li><a class="footer__link" href={routes[d.key][lang]}>{d.name[lang]}</a></li>)}
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__h">Contact</h2>
+      <ul>
+        <li><a class="footer__link" href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li class="footer__muted">{site.country}</li>
+        <li><a class="footer__link" href={routes[page ?? 'home'][lang === 'fr' ? 'en' : 'fr']} hreflang={lang === 'fr' ? 'en' : 'fr'} data-astro-reload>{ui.otherLangLabel[lang]}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__word" aria-hidden="true">
+    <Image class="footer__mark" src={markLight} alt="" width={240} height={155} />
+    <span class="footer__onyx">ONYX<span class="footer__plus">+</span></span>
+  </div>
+  <div class="footer__legal">
+    <p>© {year} {site.name}. {ui.rights[lang]}.</p>
+    <p>{ui.mission[lang]}</p>
+    <p class="footer__credits">{ui.credits[lang]}</p>
+  </div>
+</footer>

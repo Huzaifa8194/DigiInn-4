@@ -1,0 +1,110 @@
+---
+// The drawn cashew: every part is a group the chain timeline (src/motion/chain.ts) moves.
+// Drawn for this site; viewBox units are arbitrary. Decorative: the copy beside it tells the story.
+interface Props { id?: string; class?: string; state?: 'tree' | 'empty' }
+const { id = 'cashew', class: cls = '', state = 'tree' } = Astro.props;
+const KERNEL = 'M345 330C290 322 228 352 214 420C200 488 232 560 296 596C330 615 378 612 392 584C404 560 384 540 358 536C318 528 292 500 292 466C292 430 318 404 352 400C380 396 398 380 394 356C390 336 370 330 345 330Z';
+const SHELL = 'M350 300C270 292 186 344 178 440C170 540 236 626 330 640C390 648 430 622 432 586C434 556 408 540 378 532C362 524 356 500 358 470C360 444 372 424 394 414C414 404 436 384 434 350C432 318 400 302 350 300Z';
+const APPLE = 'M355 308C302 308 262 292 250 252C236 204 242 126 264 74C280 36 314 14 352 12C392 10 428 32 446 74C468 126 474 204 460 252C448 292 408 308 355 308Z';
+// packing grid: kernels in a carton (cols x rows)
+const pack = Array.from({ length: 15 }, (_, i) => ({ x: 196 + (i % 5) * 52, y: 438 + Math.floor(i / 5) * 46, r: ((i * 37) % 50) - 25 }));
+---
+<svg class={`cashew ${cls}`} id={id} viewBox="120 -40 400 720" aria-hidden="true" focusable="false" data-state={state}>
+  <defs>
+    <linearGradient id={`${id}-apple`} x1="0.2" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#f6c443" />
+      <stop offset="0.45" stop-color="#ef7a2c" />
+      <stop offset="1" stop-color="#c2302a" />
+    </linearGradient>
+    <radialGradient id={`${id}-apple-hi`} cx="0.32" cy="0.28" r="0.5">
+      <stop offset="0" stop-color="#fff6d8" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#fff6d8" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id={`${id}-shell`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a59672" />
+      <stop offset="0.55" stop-color="#7d6d4f" />
+      <stop offset="1" stop-color="#4f4433" />
+    </linearGradient>
+    <linearGradient id={`${id}-testa`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b26a3d" />
+      <stop offset="1" stop-color="#6e3a22" />
+    </linearGradient>
+    <linearGradient id={`${id}-ivory`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbf3df" />
+      <stop offset="0.6" stop-color="#ead8b0" />
+      <stop offset="1" stop-color="#c9ad7c" />
+    </linearGradient>
+    <clipPath id={`${id}-left`}><path d="M100 -60H600V430L540 446L486 436L432 456L376 444L322 466L268 452L214 472L160 458L100 470Z" /></clipPath>
+    <clipPath id={`${id}-right`}><path d="M100 470L160 458L214 472L268 452L322 466L376 444L432 456L486 436L540 446L600 430V720H100Z" /></clipPath>
+    <mask id={`${id}-peel`} maskUnits="userSpaceOnUse" x="150" y="300" width="320" height="340">
+      <rect class="cashew__peel" x="150" y="300" width="320" height="340" fill="#fff" />
+    </mask>
+    <symbol id={`${id}-k`} viewBox="200 320 210 300"><path d={KERNEL} fill={`url(#${id}-ivory)`} /><path d="M352 370C300 372 252 410 252 466C252 520 296 566 352 572" fill="none" stroke="#b8945e" stroke-width="5" stroke-linecap="round" opacity="0.55" /></symbol>
+  </defs>
+
+  <g class="cashew__sway">
+    <!-- cashew apple -->
+    <g class="cashew__apple">
+      <path d="M352 14C354 0 362 -14 376 -24" stroke="#5d7a3a" stroke-width="7" stroke-linecap="round" fill="none" />
+      <path d="M376 -24C404 -30 434 -18 452 4C424 10 396 0 376 -24Z" fill="#6f8f45" />
+      <path d={APPLE} fill={`url(#${id}-apple)`} />
+      <path d={APPLE} fill={`url(#${id}-apple-hi)`} />
+      <path d="M290 84C276 120 272 170 278 216" stroke="#fff6d8" stroke-opacity="0.35" stroke-width="7" stroke-linecap="round" fill="none" />
+    </g>
+
+    <!-- the nut: kernel inside, shell halves over it -->
+    <g class="cashew__nut">
+      <g class="cashew__kernel">
+        <path d={KERNEL} fill={`url(#${id}-testa)`} />
+        <g mask={`url(#${id}-peel)`} class="cashew__ivory">
+          <path d={KERNEL} fill={`url(#${id}-ivory)`} />
+          <path d="M352 370C300 372 252 410 252 466C252 520 296 566 352 572" fill="none" stroke="#b8945e" stroke-width="5" stroke-linecap="round" opacity="0.55" />
+          <path d="M240 440C238 488 258 532 296 560" fill="none" stroke="#fffaf0" stroke-width="6" stroke-linecap="round" opacity="0.6" />
+        </g>
+      </g>
+      <g class="cashew__shell cashew__shell--l">
+        <g clip-path={`url(#${id}-left)`}>
+          <path d={SHELL} fill={`url(#${id}-shell)`} />
+          <path d="M360 316C290 314 206 362 200 444C194 528 250 606 330 620" fill="none" stroke="#3b3326" stroke-width="4" opacity="0.5" />
+          <path d="M226 400C214 440 214 486 232 528" fill="none" stroke="#d9cba3" stroke-width="6" stroke-linecap="round" opacity="0.35" />
+        </g>
+      </g>
+      <g class="cashew__shell cashew__shell--r">
+        <g clip-path={`url(#${id}-right)`}>
+          <path d={SHELL} fill={`url(#${id}-shell)`} />
+          <path d="M360 316C290 314 206 362 200 444C194 528 250 606 330 620" fill="none" stroke="#3b3326" stroke-width="4" opacity="0.5" />
+        </g>
+      </g>
+      <g class="cashew__shell--whole">
+        <path d={SHELL} fill={`url(#${id}-shell)`} />
+        <path d="M360 316C290 314 206 362 200 444C194 528 250 606 330 620" fill="none" stroke="#3b3326" stroke-width="4" opacity="0.5" />
+        <path d="M226 400C214 440 214 486 232 528" fill="none" stroke="#d9cba3" stroke-width="6" stroke-linecap="round" opacity="0.35" />
+      </g>
+    </g>
+  </g>
+
+  <!-- grade ruler (grading step) -->
+  <g class="cashew__ruler" font-family="Martian, monospace" font-size="15" fill="#a9b2c3">
+    <line x1="170" y1="660" x2="470" y2="660" stroke="#a9b2c3" stroke-opacity="0.4" stroke-width="2" />
+    {['W180', 'W210', 'W240', 'W320', 'W450'].map((g, i) => (
+      <g transform={`translate(${170 + i * 75} 660)`}>
+        <line y1="-8" y2="8" stroke="#a9b2c3" stroke-width="2" />
+        <text y="32" text-anchor="middle">{g}</text>
+      </g>
+    ))}
+    <path class="cashew__marker" d="M0 -14L-8 -26H8Z" fill="#efe2c2" transform="translate(320 660)" />
+  </g>
+
+  <!-- export carton (packing step) -->
+  <g class="cashew__carton">
+    <rect x="160" y="400" width="320" height="170" fill="#c49a61" />
+    <rect x="160" y="400" width="320" height="170" fill="none" stroke="#7c5a31" stroke-width="3" />
+    <rect x="172" y="410" width="296" height="150" fill="#3b2a17" opacity="0.18" />
+    {pack.map((k) => (
+      <g transform={`rotate(${k.r} ${k.x} ${k.y + 10})`}><use href={`#${id}-k`} x={k.x - 24} y={k.y - 24} width="48" height="68" class="cashew__packed" /></g>
+    ))}
+    <rect x="160" y="580" width="320" height="64" fill="#efe2c2" />
+    <text x="176" y="606" font-family="Martian, monospace" font-size="15" fill="#0a1020">W240  ·  WHITE WHOLES</text>
+    <text x="176" y="630" font-family="Martian, monospace" font-size="13" fill="#4a5366">ONYX AGRO-INDUSTRY  ·  CI</text>
+  </g>
+</svg>

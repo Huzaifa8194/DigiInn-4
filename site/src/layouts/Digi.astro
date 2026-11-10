@@ -1,0 +1,21 @@
+---
+import '../styles/tokens.css';
+import '../styles/digi.css';
+const {title = 'DigiInn360 | Secure your world. Build what’s next.', description = 'Cybersecurity, software development and practical training. DigiInn360 helps protect your systems, strengthen your people and build your digital future.'} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#0a1020"/><link rel="icon" href="/favicon.svg"/><link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:image" content={new URL('/social.svg', Astro.site)}/><link rel="preload" href="/fonts/archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin/><script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'Organization',name:'DigiInn360',url:'https://www.digiinn360.com',email:'info@digiinn360.com',telephone:'+92-51-2748690'})}/></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav"><a href="/" class="brand"><span class="brand-mark" aria-hidden="true">d<span>i</span></span><span>digiinn<span class="brand-360">360</span><small>SECURE. BUILD. EVOLVE.</small></span></a><nav aria-label="Main navigation"><a href="/#services">Expertise</a><a href="/#approach">Our approach</a><a href="/about/">About us</a></nav><a class="nav-contact" href="/#contact">Let’s talk <span>↗</span></a></header>
+<main id="main"><slot/></main>
+<footer><div class="footer-top"><p>A stronger digital future.<br/>Built together.</p><a href="mailto:info@digiinn360.com">info@digiinn360.com ↗</a></div><a href="/" class="footer-word">digiinn<span>360</span><span class="footer-star">✳</span></a><div class="footer-bottom"><span>© {new Date().getFullYear()} DigiInn360</span><span>Cybersecurity · Software · Training</span><a href="#main">Back to top ↑</a></div></footer>
+<script>
+import { gsap } from 'gsap';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduced) gsap.from('.hero-copy > *', {y:24, opacity:0, duration:0.85, stagger:0.09, ease:'power3.out'});
+</script>
+</body></html>
+
+

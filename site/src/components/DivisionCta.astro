@@ -1,0 +1,24 @@
+---
+import { divisions, divisionPage, routes, ui, type Lang } from '../data/site';
+import Btn from './Btn.astro';
+import Flap from './Flap.astro';
+interface Props { lang: Lang; current: 'agro' | 'energy' | 'travel' }
+const { lang, current } = Astro.props;
+const d = divisions.find((x) => x.key === current)!;
+const next = divisions[(divisions.indexOf(d) + 1) % divisions.length];
+---
+<section class="dcta" data-tone-section="light" aria-labelledby={`aud-${current}`}>
+  <div class="dcta__aud">
+    <h2 class="eyebrow" id={`aud-${current}`}>{divisionPage.common.audiencesTitle[lang]}</h2>
+    <ul class="dcta__list">
+      {d.audiences.map((a) => <li>{a[lang]}</li>)}
+    </ul>
+    <Btn href={routes.contact[lang]} label={divisionPage.common.cta[lang]} />
+  </div>
+  <a class="dcta__next" href={routes[next.key][lang]} style={`--field:${next.field}`} data-flap-trigger>
+    <span class="eyebrow">{ui.next[lang]} · {next.no}</span>
+    <span class="dcta__name">{next.name[lang]}</span>
+    <span class="dcta__line">{next.line[lang]}</span>
+    <Flap codes={next.codes} label={next.codeLabel[lang]} size="l" />
+  </a>
+</section>

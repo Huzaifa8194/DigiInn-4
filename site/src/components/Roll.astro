@@ -1,0 +1,8 @@
+---
+// Nav link: the label flips up like a flap, the current page keeps a marker.
+interface Props { href: string; label: string; current?: boolean; class?: string }
+const { href, label, current = false, class: cls = '' } = Astro.props;
+---
+<a class={`roll ${cls}`} href={href} aria-current={current ? 'page' : undefined}>
+  <span class="roll__in"><span>{label}</span><span aria-hidden="true">{label}</span></span>
+</a>

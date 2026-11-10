@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Flap from '../components/Flap.astro';
+import Btn from '../components/Btn.astro';
+import { group, divisions, routes, ui, field, home, type Lang } from '../data/site';
+import mark from '../assets/img/onyx-mark.png';
+import siat from '../assets/img/siat-forum.jpg';
+import outdoor from '../assets/img/siat-outdoor.jpg';
+import fair from '../assets/img/trade-fair.jpg';
+import team6 from '../assets/img/team-6.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang} page="group" title={group.title[lang]} description={group.description[lang]}>
+  <PageHero eyebrow={group.title[lang]} title={group.h1[lang]}>
+    <div class="ghero">
+      <p class="ghero__intro">{group.intro[lang]}</p>
+      <figure class="ghero__mark" aria-hidden="true"><Image src={mark} alt="" width={420} height={270} loading="eager" /></figure>
+    </div>
+  </PageHero>
+
+  <section class="plus" data-tone-section="dark" aria-labelledby="plus-title">
+    <span class="plus__glyph" aria-hidden="true">+</span>
+    <div class="plus__body">
+      <h2 class="section-title" id="plus-title" data-split="lines">{group.plusTitle[lang]}</h2>
+      <p class="plus__text" data-split="lines">{group.plusText[lang]}</p>
+    </div>
+  </section>
+
+  <section class="block" data-tone-section="light" aria-labelledby="g-div">
+    <h2 class="section-title" id="g-div" data-split="lines">{home.divisionsTitle[lang]}</h2>
+    <ul class="gdivs">
+      {divisions.map((d) => (
+        <li>
+          <a class="gdiv" href={routes[d.key][lang]} style={`--field:${d.field}`} data-flap-trigger>
+            <span class="gdiv__no">{d.no}</span>
+            <span class="gdiv__name">{d.name[lang]}</span>
+            <span class="gdiv__line">{d.line[lang]}</span>
+            <Flap codes={d.codes} label={d.codeLabel[lang]} size="m" tone="light" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="block block--pillars" data-tone-section="light" aria-labelledby="pillars-title">
+    <h2 class="section-title" id="pillars-title" data-split="lines">{group.pillarsTitle[lang]}</h2>
+    <ol class="pillars">
+      {group.pillars.map((p) => <li class="pillar" data-reveal="up"><h3 class="pillar__t">{p.title[lang]}</h3><p>{p.text[lang]}</p></li>)}
+    </ol>
+    <blockquote class="mission"><p>{lang === 'fr' ? 'Ajouter de la valeur à chaque étape, en Côte d’Ivoire et au-delà.' : 'Adding value at every step, in Côte d’Ivoire and beyond.'}</p></blockquote>
+  </section>
+
+  <section class="presence" data-tone-section="light" aria-labelledby="presence-title">
+    <div class="presence__head">
+      <h2 class="section-title" id="presence-title" data-split="lines">{group.presenceTitle[lang]}</h2>
+      <p class="block__text">{group.presenceText[lang]}</p>
+      <Btn href={routes.contact[lang]} label={home.ctaSecondary[lang]} />
+    </div>
+    <div class="presence__grid">
+      <figure class="presence__a"><div class="frame" data-gl><Image src={siat} alt={field[3].caption[lang]} widths={[400, 700]} sizes="(max-width: 900px) 70vw, 30vw" /></div><figcaption>{field[3].caption[lang]}</figcaption></figure>
+      <figure class="presence__b"><div class="frame" data-gl><Image src={outdoor} alt={lang === 'fr' ? 'Représentant d’ONYX PLUS GROUP, badge VIP, sur le site du salon' : 'ONYX PLUS GROUP representative with a VIP badge at the fair venue'} widths={[400, 700]} sizes="(max-width: 900px) 60vw, 22vw" /></div></figure>
+      <figure class="presence__c"><div class="frame" data-gl><Image src={fair} alt={field[4].caption[lang]} widths={[400, 700]} sizes="(max-width: 900px) 60vw, 22vw" /></div><figcaption>{field[4].caption[lang]}</figcaption></figure>
+      <figure class="presence__d"><div class="frame" data-gl><Image src={team6} alt={field[0].caption[lang]} widths={[400, 700]} sizes="(max-width: 900px) 70vw, 26vw" /></div><figcaption>{field[0].caption[lang]}</figcaption></figure>
+    </div>
+  </section>
+</Base>

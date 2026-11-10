@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import EnergyDiagram from '../components/EnergyDiagram.astro';
+import DivisionCta from '../components/DivisionCta.astro';
+import { divisions, divisionPage, ui, type Lang } from '../data/site';
+import lines from '../assets/img/energy-lines.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = divisions[1];
+const p = divisionPage.energy;
+const c = divisionPage.common;
+---
+<Base lang={lang} page="energy" title={p.title[lang]} description={p.description[lang]}>
+  <PageHero no={d.no} eyebrow={d.short[lang]} title={d.name[lang]} intro={d.line[lang]} codes={d.codes} codeLabel={d.codeLabel[lang]} field={d.field}>
+    <div class="phero__diagram">
+      <EnergyDiagram labels={Object.fromEntries(Object.entries(p.diagramLabels).map(([k, v]) => [k, v[lang]])) as any} />
+    </div>
+    <p class="phero__lede phero__lede--wide">{d.intro[lang]}</p>
+  </PageHero>
+
+  <section class="block block--offers" data-tone-section="light" aria-labelledby="offers-title">
+    <div class="block__head">
+      <h2 class="section-title" id="offers-title" data-split="lines">{c.offersTitle[lang]}</h2>
+      <p class="block__text">{p.diagramText[lang]}</p>
+    </div>
+    <ul class="offers offers--six">
+      {d.offers.map((o, i) => <li class="offer"><span class="offer__no">{String(i + 1).padStart(2, '0')}</span><h3 class="offer__t">{o.title[lang]}</h3><p>{o.text[lang]}</p></li>)}
+    </ul>
+  </section>
+
+  <section class="model" data-tone-section="dark" aria-labelledby="model-title">
+    <figure class="model__media">
+      <Image data-parallax="0.08" src={lines} alt="" widths={[800, 1400]} sizes="100vw" />
+    </figure>
+    <span class="tag model__tag">{ui.illustration[lang]}</span>
+    <div class="model__body">
+      <h2 class="section-title" id="model-title" data-split="lines">{p.modelTitle[lang]}</h2>
+      <ol class="model__list">{p.model.map((m, i) => <li><span class="process__no">{String(i + 1).padStart(2, '0')}</span><p>{m[lang]}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <DivisionCta lang={lang} current="energy" />
+</Base>

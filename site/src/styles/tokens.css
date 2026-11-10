@@ -1,0 +1,75 @@
+/* ONYX PLUS GROUP tokens. Names are the engine contract; values come from DESIGN.md. */
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/archivo-100_900-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Martian';
+  src: url('/fonts/martian-400-normal.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Metric-adjusted fallback so the swap does not shift layout */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial');
+  size-adjust: 101%;
+  ascent-override: 88%;
+  descent-override: 21%;
+}
+
+:root {
+  --c-bg: #eef0f2;
+  --c-fg: #0a1020;
+  --c-muted: #4a5366;
+  --c-line: rgb(10 16 32 / 0.14);
+  --c-accent: #2759d6;
+  --c-curtain: #0a1020;
+
+  --c-onyx: #0a1020;
+  --c-onyx-2: #121a2e;
+  --c-paper: #eef0f2;
+  --c-paper-2: #e3e6ea;
+  --c-light-muted: #a9b2c3;
+  --c-agro: #e8d3a6;
+  --c-energy: #f2b134;
+  --c-travel: #3aa79e;
+  --c-kernel: #efe2c2;
+
+  --f-display: 'Archivo', 'Archivo Fallback', system-ui, sans-serif;
+  --f-body: 'Archivo', 'Archivo Fallback', system-ui, sans-serif;
+  --f-mono: 'Martian', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --t-mega: clamp(3.1rem, 0.9rem + 7.4vw, 8.6rem);
+  --t-xl: clamp(2.35rem, 1.2rem + 4.3vw, 5.4rem);
+  --t-l: clamp(1.6rem, 1.1rem + 1.9vw, 2.9rem);
+  --t-m: clamp(1.2rem, 1.05rem + 0.6vw, 1.6rem);
+  --t-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --t-s: 0.875rem;
+  --t-xs: 0.75rem;
+
+  --u: clamp(0.5rem, 0.35rem + 0.6vw, 1rem);
+  --gutter: clamp(1rem, 0.6rem + 1.6vw, 2.5rem);
+  --header-h: 4.5rem;
+  --cols: 12;
+  --radius: 0px;
+  --flap-radius: 3px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  --z-gl: 0;
+  --z-content: 1;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-cursor: 80;
+  --z-curtain: 90;
+  --z-loader: 100;
+}

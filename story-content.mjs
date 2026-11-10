@@ -1,0 +1,9 @@
+import fs from 'node:fs';
+const file='site/src/pages/index.astro';let p=fs.readFileSync(file,'utf8');
+p=p.replace('Sculptural security core surrounded by three protective orbital rings','Exploded security enclosure revealing connected endpoints, servers, firewall layers and an identity lock');
+p=p.replace('See your exposure.','Reveal what matters.').replace('Every system has a perimeter. Understand your assets, connections and vulnerabilities before a threat finds its way in.','The enclosure opens to reveal your connected world: applications, endpoints and the data at its center. Security starts by knowing what is inside.');
+p=p.replace('Open the layers.','Find the weak link.').replace('Look beneath the surface. Penetration testing and security audits reveal where your defenses need attention.','One exposed endpoint can put the wider network at risk. Testing and audits help locate the gaps before an attacker reaches your critical systems.');
+p=p.replace('Build your defense.','Stop the path to impact.').replace('Network protection, endpoint security and access controls form connected layers around your business.','Watch the protective layers slide into place. Network defense and endpoint controls interrupt the threat’s route to the systems behind them.');
+p=p.replace('Strengthen the core.','Verify. Then trust.').replace('Bring your people into the picture. Practical training turns awareness into everyday security habits.','The identity lock closes as the exposed connection is secured. Access management and informed people help keep the right doors open and the wrong ones closed.');
+p=p.replace('Ready for what’s next.','Protection, built in.').replace('Bring secure software, informed people and stronger systems together. One complete perspective on your digital future.','The enclosure comes together around a strengthened system. Secure development, layered protection and practical training work as one.');
+fs.writeFileSync(file,p);

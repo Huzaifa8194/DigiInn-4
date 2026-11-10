@@ -1,0 +1,32 @@
+[
+  {
+    "file": "architecture.jpg",
+    "url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2000&q=85&fit=crop",
+    "bytes": 568984,
+    "purpose": "Illustrative sector image, not a verified ONYX facility"
+  },
+  {
+    "file": "agriculture.jpg",
+    "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85&fit=crop",
+    "bytes": 350359,
+    "purpose": "Illustrative sector image, not a verified ONYX facility"
+  },
+  {
+    "file": "energy.jpg",
+    "url": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1800&q=85&fit=crop",
+    "bytes": 211762,
+    "purpose": "Illustrative sector image, not a verified ONYX facility"
+  },
+  {
+    "file": "travel.jpg",
+    "url": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&q=85&fit=crop",
+    "bytes": 172217,
+    "purpose": "Illustrative sector image, not a verified ONYX facility"
+  },
+  {
+    "file": "cashew.jpg",
+    "url": "https://images.pexels.com/photos/4663476/pexels-photo-4663476.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "bytes": 327898,
+    "purpose": "Illustrative sector image, not a verified ONYX facility"
+  }
+]

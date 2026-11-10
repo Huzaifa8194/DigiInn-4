@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import { nav, routes, ui, type Lang, type PageKey } from '../data/site';
+import mark from '../assets/img/onyx-mark.png';
+import markLight from '../assets/img/onyx-mark-light.png';
+import word from '../assets/img/onyx-word.png';
+import wordLight from '../assets/img/onyx-word-light.png';
+import Roll from './Roll.astro';
+
+interface Props { lang: Lang; page?: PageKey }
+const { lang, page } = Astro.props;
+const other: Lang = lang === 'fr' ? 'en' : 'fr';
+const otherHref = routes[page ?? 'home'][other];
+---
+<header class="header" data-header>
+  <a class="header__logo" href={routes.home[lang]} aria-label="ONYX PLUS GROUP, accueil">
+    <span class="logo">
+      <Image class="logo__mark logo--ink" src={mark} alt="" width={76} height={49} loading="eager" />
+      <Image class="logo__mark logo--light" src={markLight} alt="" width={76} height={49} loading="eager" />
+      <Image class="logo__word logo--ink" src={word} alt="" width={118} height={40} loading="eager" />
+      <Image class="logo__word logo--light" src={wordLight} alt="" width={118} height={40} loading="eager" />
+    </span>
+  </a>
+  <nav class="header__nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+    <ul>
+      {nav.map((n) => (
+        <li><Roll href={routes[n.key][lang]} label={n.label[lang]} current={page === n.key} /></li>
+      ))}
+    </ul>
+  </nav>
+  <div class="header__tools">
+    <p class="lang">
+      <span class="lang__on" aria-hidden="true">{lang.toUpperCase()}</span><span class="lang__sep" aria-hidden="true">/</span>
+      <a class="lang__off" href={otherHref} hreflang={other} lang={other} title={ui.otherLangLabel[lang]} data-astro-reload>{other.toUpperCase()}</a>
+    </p>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>
+      <span class="menu-btn__label">{ui.menu[lang]}</span><span class="menu-btn__plus" aria-hidden="true">+</span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden data-menu role="dialog" aria-modal="true" aria-label={ui.menu[lang]}>
+  <div class="menu__panel">
+    <div class="menu__top">
+      <span class="menu__title" aria-hidden="true">ONYX+</span>
+      <button class="menu__close" type="button" data-menu-close>{ui.close[lang]}<span aria-hidden="true" class="menu__x">+</span></button>
+    </div>
+    <ul class="menu__list">
+      <li><a href={routes.home[lang]} aria-current={page === 'home' ? 'page' : undefined}><span class="menu__no">00</span><span class="menu__label">{lang === 'fr' ? 'Accueil' : 'Home'}</span></a></li>
+      {nav.map((n, i) => (
+        <li><a href={routes[n.key][lang]} aria-current={page === n.key ? 'page' : undefined}><span class="menu__no">{String(i + 1).padStart(2, '0')}</span><span class="menu__label">{n.label[lang]}</span></a></li>
+      ))}
+    </ul>
+    <a class="menu__lang" href={otherHref} hreflang={other} data-astro-reload>{ui.otherLangLabel[lang]}</a>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { site, ui, routes, type Lang, type PageKey } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/site.css';
+import '../styles/inner.css';
+
+interface Props {
+  lang: Lang;
+  page?: PageKey;      // for nav state and the language switch
+  title: string;
+  description: string;
+  image?: string;
+  tone?: 'dark' | 'light'; // tone of the first screen (header ink)
+  noindex?: boolean;
+}
+const { lang, page, title, description, image = '/og.png', tone = 'light', noindex = false } = Astro.props;
+const fullTitle = page === 'home' ? `${site.name} | ${title}` : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const ogImage = new URL(image, Astro.site ?? site.url).href;
+const alt = page ? { fr: routes[page].fr, en: routes[page].en } : null;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  logo: new URL('/brand/onyx-logo.png', site.url).href,
+  email: site.email,
+  slogan: ui.tagline[lang],
+  address: { '@type': 'PostalAddress', addressCountry: 'CI' },
+  areaServed: ['Africa', 'International'],
+  department: [
+    { '@type': 'Organization', name: 'ONYX AGRO-INDUSTRY' },
+    { '@type': 'Organization', name: 'ONYX ENERGY & INFRASTRUCTURE' },
+    { '@type': 'Organization', name: 'ONYX TRAVEL & TOURISM' },
+  ],
+};
+---
+<!doctype html>
+<html lang={lang} transition:animate="none" data-tone={tone}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alt && <link rel="alternate" hreflang="fr" href={new URL(alt.fr, site.url).href} />}
+    {alt && <link rel="alternate" hreflang="en" href={new URL(alt.en, site.url).href} />}
+    {alt && <link rel="alternate" hreflang="x-default" href={new URL(alt.fr, site.url).href} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0a1020" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <link rel="preload" href="/fonts/archivo-100_900-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    </script>
+    <ClientRouter fallback="swap" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ui.skip[lang]}</a>
+    <div id="gl" transition:persist="gl" aria-hidden="true"></div>
+    <div id="curtain" transition:persist="curtain" aria-hidden="true">
+      <div class="curtain__panel curtain__panel--top"></div>
+      <div class="curtain__panel curtain__panel--bottom"></div>
+      <div class="curtain__label"><span class="curtain__plus">+</span><span class="curtain__title" data-curtain-title></span></div>
+    </div>
+    <Header lang={lang} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} page={page} />
+    <script>
+      import { start } from '../engine/astro';
+      import { setupMotion } from '../motion/setup';
+      start(setupMotion);
+    </script>
+  </body>
+</html>

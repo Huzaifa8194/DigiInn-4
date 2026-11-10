@@ -1,0 +1,49 @@
+---
+// Simplified single-line diagram, drawn for this site: MV grid → MV switchgear → transformer →
+// cables → LV board → feeders. Strokes draw in on scroll ([data-stroke]); a dashed current keeps
+// flowing along the line ([data-flow]) as the figure's idle state.
+interface Props { labels: { grid: string; cell: string; trafo: string; cable: string; board: string; out: string } }
+const { labels: l } = Astro.props;
+---
+<svg class="sld" viewBox="0 0 1200 420" role="img" aria-label={`${l.grid}, ${l.cell}, ${l.trafo}, ${l.cable}, ${l.board}, ${l.out}`} data-draw>
+  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square">
+    <!-- grid busbar -->
+    <path data-stroke d="M40 120H220" />
+    <path data-stroke d="M60 100V140M90 100V140M120 100V140" stroke-width="2" />
+    <!-- line to cell -->
+    <path data-stroke d="M220 120H300" />
+    <!-- MV switchgear: breaker box with cross -->
+    <rect data-stroke x="300" y="80" width="90" height="80" />
+    <path data-stroke d="M322 102L368 138M368 102L322 138" />
+    <path data-stroke d="M390 120H470" />
+    <!-- transformer: two coupled windings -->
+    <circle data-stroke cx="510" cy="120" r="40" />
+    <circle data-stroke cx="566" cy="120" r="40" />
+    <path data-stroke d="M606 120H660" />
+    <!-- cable run -->
+    <path data-stroke d="M660 120C700 120 700 240 740 240H860" />
+    <!-- LV board -->
+    <rect data-stroke x="860" y="190" width="120" height="100" />
+    <path data-stroke d="M880 215H960M880 240H960M880 265H960" stroke-width="2" />
+    <!-- feeders -->
+    <path data-stroke d="M980 210H1100M980 240H1100M980 270H1100" />
+    <path data-stroke d="M1090 200L1110 210L1090 220M1090 230L1110 240L1090 250M1090 260L1110 270L1090 280" />
+  </g>
+  <!-- the current, flowing -->
+  <path data-flow class="sld__flow" d="M40 120H300M390 120H470M606 120H660C700 120 700 240 740 240H860M980 240H1100" fill="none" stroke="var(--c-energy-ink, #0a1020)" stroke-width="3" stroke-dasharray="4 36" />
+  <g class="sld__dots">
+    <circle data-pop cx="220" cy="120" r="7" fill="currentColor" />
+    <circle data-pop cx="660" cy="120" r="7" fill="currentColor" />
+    <circle data-pop cx="860" cy="240" r="7" fill="currentColor" />
+  </g>
+  <g class="sld__labels" font-family="Martian, monospace" font-size="17" fill="currentColor">
+    <text x="40" y="70">{l.grid}</text>
+    <text x="300" y="196">{l.cell}</text>
+    <text x="470" y="196">{l.trafo}</text>
+    <text x="700" y="290">{l.cable}</text>
+    <text x="860" y="326">{l.board}</text>
+    <text x="1000" y="180">{l.out}</text>
+    <text x="300" y="60" font-size="14" opacity="0.7">HTA</text>
+    <text x="860" y="170" font-size="14" opacity="0.7">BT</text>
+  </g>
+</svg>

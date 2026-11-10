@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import Cashew from '../components/Cashew.astro';
+import Flap from '../components/Flap.astro';
+import Btn from '../components/Btn.astro';
+import { notFound, divisions, routes, ui, type Lang } from '../data/site';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang} title={notFound.title[lang]} description={notFound.text[lang]} tone="dark" noindex>
+  <section class="nf" data-tone-section="dark" aria-labelledby="nf-title">
+    <div class="nf__body">
+      <Flap codes={['404']} size="xl" cycle={false} label="404" />
+      <h1 class="nf__title" id="nf-title" data-split="lines" data-intro>{notFound.h1[lang]}</h1>
+      <p class="nf__text">{notFound.text[lang]} / <span lang="en">{notFound.text.en}</span></p>
+      <ul class="nf__links">
+        {divisions.map((d) => <li><a class="link" href={routes[d.key][lang]}>{d.short[lang]}</a></li>)}
+      </ul>
+      <Btn href={routes.home[lang]} label={ui.backHome[lang]} variant="light" />
+    </div>
+    <div class="nf__art" aria-hidden="true">
+      <Cashew id="cashew-404" state="empty" class="nf__cashew" />
+    </div>
+  </section>
+</Base>

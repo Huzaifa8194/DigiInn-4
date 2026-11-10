@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Btn from '../components/Btn.astro';
+import Flap from '../components/Flap.astro';
+import { projects, divisions, routes, home, type Lang } from '../data/site';
+import inspection from '../assets/img/warehouse-inspection.jpg';
+import kernelStore from '../assets/img/kernel-store.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang} page="projects" title={projects.title[lang]} description={projects.description[lang]}>
+  <PageHero eyebrow={projects.title[lang]} title={projects.h1[lang]} intro={projects.intro[lang]} />
+
+  <section class="zproject" data-tone-section="dark" aria-labelledby="z-title">
+    <div class="zproject__media">
+      <figure class="frame zproject__a" data-reveal="clip"><Image src={inspection} alt={lang === 'fr' ? 'Inspection d’un stock de noix de cajou brutes en sacs de jute' : 'Inspecting a stock of raw cashew nuts in jute bags'} widths={[600, 1000]} sizes="(max-width: 900px) 100vw, 45vw" /></figure>
+      <figure class="frame zproject__b" data-reveal="clip" data-delay="0.15"><Image src={kernelStore} alt={lang === 'fr' ? 'Représentant d’ONYX PLUS GROUP dans un magasin d’amandes conditionnées' : 'ONYX PLUS GROUP representative in a packed-kernel store'} widths={[400, 700]} sizes="(max-width: 900px) 60vw, 24vw" /></figure>
+    </div>
+    <div class="zproject__body">
+      <p class="zproject__status"><span class="dot" aria-hidden="true"></span>{projects.status[lang]}</p>
+      <h2 class="section-title" id="z-title" data-split="lines">{projects.zTitle[lang]}</h2>
+      <p class="zproject__text">{projects.zText[lang]}</p>
+      <dl class="facts facts--stack">
+        {home.projectFacts.map((f) => <div><dt>{f.k[lang]}</dt><dd>{f.v[lang]}</dd></div>)}
+      </dl>
+      <h3 class="eyebrow zproject__scope-t">{lang === 'fr' ? 'Ce que comprendra l’usine' : 'What the plant will include'}</h3>
+      <ul class="plus-list plus-list--light">{projects.zScope.map((s) => <li>{s[lang]}</li>)}</ul>
+      <p class="zproject__open">{projects.zOpen[lang]}</p>
+      <Btn href={routes.contact[lang]} label={home.ctaSecondary[lang]} variant="light" />
+    </div>
+  </section>
+
+  <section class="block" data-tone-section="light" aria-labelledby="next-title">
+    <h2 class="section-title" id="next-title" data-split="lines">{projects.nextTitle[lang]}</h2>
+    <ul class="gdivs gdivs--two">
+      {projects.next.map((n) => {
+        const d = divisions.find((x) => x.key === n.key)!;
+        return (
+          <li>
+            <a class="gdiv" href={routes[d.key][lang]} style={`--field:${d.field}`} data-flap-trigger>
+              <span class="gdiv__no">{d.no}</span>
+              <span class="gdiv__name">{d.name[lang]}</span>
+              <span class="gdiv__line">{n.text[lang]}</span>
+              <Flap codes={d.codes} label={d.codeLabel[lang]} size="m" tone="light" />
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+</Base>

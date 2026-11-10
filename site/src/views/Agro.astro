@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import GradeScale from '../components/GradeScale.astro';
+import DivisionCta from '../components/DivisionCta.astro';
+import Btn from '../components/Btn.astro';
+import { divisions, divisionPage, routes, projects, type Lang } from '../data/site';
+import apple from '../assets/img/cashew-apple.jpg';
+import sorting from '../assets/img/sorting-line.jpg';
+import team4 from '../assets/img/team-4.jpg';
+import tray from '../assets/img/kernels-tray.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = divisions[0];
+const p = divisionPage.agro;
+const c = divisionPage.common;
+---
+<Base lang={lang} page="agro" title={p.title[lang]} description={p.description[lang]}>
+  <PageHero no={d.no} eyebrow={d.short[lang]} title={d.name[lang]} intro={d.line[lang]} codes={d.codes} codeLabel={d.codeLabel[lang]} field={d.field}>
+    <div class="phero__media">
+      <figure class="frame"><Image src={apple} alt={lang === 'fr' ? 'Pomme de cajou et noix encore verte sur l’anacardier' : 'Cashew apple and young nut on the cashew tree'} widths={[600, 900, 1300]} sizes="(max-width: 900px) 100vw, 50vw" loading="eager" fetchpriority="high" /></figure>
+      <p class="phero__lede">{d.intro[lang]}</p>
+    </div>
+  </PageHero>
+
+  <section class="block block--grades" data-tone-section="light" aria-labelledby="grades-title">
+    <div class="block__head">
+      <h2 class="section-title" id="grades-title" data-split="lines">{p.gradesTitle[lang]}</h2>
+      <p class="block__text">{p.gradesText[lang]}</p>
+    </div>
+    <GradeScale lang={lang} perLb={p.perLb[lang]} perKg={p.perKg[lang]} each={p.each[lang]} />
+  </section>
+
+  <section class="process" data-tone-section="dark" aria-labelledby="process-title">
+    <div class="process__media">
+      <figure class="frame" data-reveal="clip"><Image src={sorting} alt={lang === 'fr' ? 'Ligne de tri manuel des amandes de cajou' : 'Manual cashew kernel sorting line'} widths={[500, 800]} sizes="(max-width: 900px) 100vw, 40vw" /></figure>
+    </div>
+    <div class="process__body">
+      <h2 class="section-title" id="process-title" data-split="lines">{p.processTitle[lang]}</h2>
+      <ol class="process__list">
+        {p.process.map((s, i) => (
+          <li data-reveal="up">
+            <span class="process__no">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="process__t">{s.t[lang]}</h3>
+            <p class="process__d">{s.d[lang]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="block block--quality" data-tone-section="light" aria-labelledby="quality-title">
+    <div class="quality">
+      <div class="quality__text">
+        <h2 class="section-title" id="quality-title" data-split="lines">{p.qualityTitle[lang]}</h2>
+        <ul class="plus-list">{p.quality.map((q) => <li>{q[lang]}</li>)}</ul>
+      </div>
+      <figure class="quality__img quality__img--a"><div class="frame" data-gl><Image src={team4} alt={lang === 'fr' ? 'Équipe en tenue d’hygiène devant des palettes d’amandes conditionnées' : 'Team in hygiene wear in front of pallets of packed kernels'} widths={[400, 700]} sizes="(max-width: 900px) 70vw, 28vw" /></div></figure>
+      <figure class="quality__img quality__img--b"><div class="frame" data-gl><Image src={tray} alt={lang === 'fr' ? 'Amandes de cajou étalées au séchage' : 'Cashew kernels spread out for drying'} widths={[400, 700]} sizes="(max-width: 900px) 60vw, 20vw" /></div><figcaption>{lang === 'fr' ? 'Photo : Maja Vujic, Unsplash' : 'Photo: Maja Vujic, Unsplash'}</figcaption></figure>
+    </div>
+    <div class="capacity">
+      <h2 class="capacity__t">{p.capacityTitle[lang]}</h2>
+      <p>{p.capacityText[lang]}</p>
+      <Btn href={routes.projects[lang]} label={projects.zTitle[lang]} variant="line" />
+    </div>
+  </section>
+
+  <section class="block block--offers" data-tone-section="light" aria-labelledby="offers-title">
+    <h2 class="section-title" id="offers-title" data-split="lines">{c.offersTitle[lang]}</h2>
+    <ul class="offers">
+      {d.offers.map((o) => <li class="offer"><h3 class="offer__t">{o.title[lang]}</h3><p>{o.text[lang]}</p></li>)}
+    </ul>
+  </section>
+
+  <DivisionCta lang={lang} current="agro" />
+</Base>

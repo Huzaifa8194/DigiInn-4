@@ -1,0 +1,23 @@
+---
+import Flap from './Flap.astro';
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  codes?: string[];
+  codeLabel?: string;
+  field?: string;   // CSS color for the hero ground
+  tone?: 'light' | 'dark';
+  no?: string;
+}
+const { eyebrow, title, intro, codes, codeLabel, field = 'var(--c-bg)', tone = 'light', no } = Astro.props;
+---
+<section class={`phero phero--${tone}`} style={`--field:${field}`} data-tone-section={tone}>
+  <div class="phero__top">
+    <p class="phero__eyebrow">{no && <span class="phero__no">{no}</span>}{eyebrow}</p>
+    {codes && <Flap codes={codes} label={codeLabel} size="xl" class="phero__flap" />}
+  </div>
+  <h1 class="phero__title" data-split="lines" data-intro>{title}</h1>
+  {intro && <p class="phero__intro">{intro}</p>}
+  <slot />
+</section>

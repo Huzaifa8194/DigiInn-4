@@ -1,0 +1,16 @@
+---
+// Split-flap code label. The first code renders in HTML; src/motion/flap.ts cycles the rest.
+// The readable value lives in .sr-only text; the cells are decorative.
+interface Props { codes: string[]; label?: string; size?: 'm' | 'l' | 'xl' | 's'; class?: string; cycle?: boolean; width?: number; tone?: 'dark' | 'light' }
+const { codes, label, size = 'm', class: cls = '', cycle = true, width, tone = 'dark' } = Astro.props;
+const w = width ?? Math.max(...codes.map((c) => c.length));
+const first = codes[0].padEnd(w, ' ');
+---
+<span class={`flap flap--${size} flap--${tone} ${cls}`} data-flap={codes.join('|')} data-flap-cycle={cycle ? '' : undefined} data-flap-width={w}>
+  <span class="sr-only" data-flap-text>{label ? `${label} : ${codes.join(', ')}` : codes.join(', ')}</span>
+  <span class="flap__cells" aria-hidden="true">
+    {[...first].map((ch) => (
+      <span class="flap__cell"><span class="flap__char">{ch === ' ' ? ' ' : ch}</span></span>
+    ))}
+  </span>
+</span>

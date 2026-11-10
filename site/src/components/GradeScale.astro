@@ -1,0 +1,34 @@
+---
+// Five kernel grades drawn to scale. Grade N = N whole kernels per pound (453.6 g), so one kernel
+// weighs 453.6 / N grams; drawn size follows mass^(1/3) relative to W180.
+import Flap from './Flap.astro';
+import type { Lang } from '../data/site';
+interface Props { lang: Lang; perLb: string; perKg: string; each: string }
+const { lang, perLb, perKg, each } = Astro.props;
+const grades = [180, 210, 240, 320, 450].map((n) => {
+  const g = 453.6 / n;
+  return { code: `W${n}`, n, kg: Math.round(n * 2.20462), g: g.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2, minimumFractionDigits: 2 }), scale: Math.cbrt(180 / n) };
+});
+const KERNEL = 'M345 330C290 322 228 352 214 420C200 488 232 560 296 596C330 615 378 612 392 584C404 560 384 540 358 536C318 528 292 500 292 466C292 430 318 404 352 400C380 396 398 380 394 356C390 336 370 330 345 330Z';
+---
+<ol class="grades" data-grades>
+  {grades.map((k) => (
+    <li class="grade" data-grade={k.code}>
+      <div class="grade__art" style={`--s:${k.scale}`}>
+        <svg viewBox="190 310 230 320" aria-hidden="true">
+          <defs>
+            <linearGradient id={`gk-${k.n}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf3df" /><stop offset="0.6" stop-color="#ead8b0" /><stop offset="1" stop-color="#c9ad7c" /></linearGradient>
+          </defs>
+          <path d={KERNEL} fill={`url(#gk-${k.n})`} />
+          <path d="M352 370C300 372 252 410 252 466C252 520 296 566 352 572" fill="none" stroke="#b8945e" stroke-width="5" stroke-linecap="round" opacity="0.55" />
+        </svg>
+      </div>
+      <Flap codes={[k.code]} size="l" cycle={false} label={k.code} />
+      <dl class="grade__facts">
+        <div><dt>{perLb}</dt><dd>{k.n}</dd></div>
+        <div><dt>{perKg}</dt><dd>≈&nbsp;{k.kg}</dd></div>
+        <div><dt>{each}</dt><dd>≈&nbsp;{k.g}&nbsp;g</dd></div>
+      </dl>
+    </li>
+  ))}
+</ol>

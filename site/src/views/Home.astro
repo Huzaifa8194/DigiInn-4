@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Cashew from '../components/Cashew.astro';
+import Flap from '../components/Flap.astro';
+import Btn from '../components/Btn.astro';
+import { home, chain, divisions, routes, ui, field, partners, type Lang } from '../data/site';
+import kernels from '../assets/img/kernels-white.jpg';
+import energy from '../assets/img/energy-lines.jpg';
+import travel from '../assets/img/travel-wing.jpg';
+import sorting from '../assets/img/sorting-line.jpg';
+import siat from '../assets/img/siat-forum.jpg';
+import team6 from '../assets/img/team-6.jpg';
+import inspection from '../assets/img/warehouse-inspection.jpg';
+import fair from '../assets/img/trade-fair.jpg';
+import rawWarehouse from '../assets/img/raw-nut-warehouse.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const divImg = { agro: kernels, energy, travel } as const;
+const divAlt = {
+  agro: lang === 'fr' ? 'Amandes de cajou blanches entières' : 'White whole cashew kernels',
+  energy: lang === 'fr' ? 'Lignes électriques haute tension au coucher du soleil' : 'Power lines at sunset',
+  travel: lang === 'fr' ? 'Aile d’avion au-dessus des nuages' : 'Aircraft wing above the clouds',
+};
+const fieldImgs: Record<string, ImageMetadata> = { 'team-6': team6, 'sorting-line': sorting, 'warehouse-inspection': inspection, 'siat-forum': siat, 'trade-fair': fair };
+---
+<Base lang={lang} page="home" title={home.title[lang]} description={home.description[lang]} tone="dark">
+  <!-- 1. CHAIN: hero + the cashew value chain on one sticky stage -->
+  <section class="chain" data-chain data-tone-section="dark" aria-labelledby="hero-title">
+    <div class="chain__stage" data-chain-stage>
+      <div class="chain__figure" data-chain-figure>
+        <Cashew id="cashew-home" />
+      </div>
+      <div class="chain__label">
+        <span class="chain__step" data-chain-index>00</span>
+        <Flap codes={chain.steps.map((s) => s.code)} size="l" cycle={false} width={8} class="chain__flap" label={chain.eyebrow[lang]} />
+      </div>
+      <ul class="chain__notes" aria-hidden="true">
+        {chain.notes.map((n) => (
+          <li class={`note note--${n.side}`} data-note={n.step} style={`--x:${n.x}%;--y:${n.y}%`}><span class="note__line"></span><span class="note__text">{n.text[lang]}</span></li>
+        ))}
+      </ul>
+      <ol class="chain__dots" aria-hidden="true">
+        {chain.steps.map((_, i) => <li data-chain-dot={i}></li>)}
+      </ol>
+    </div>
+
+    <div class="chain__steps">
+      <div class="chain__hero" data-chain-step="0">
+        <p class="hero__meta"><span>{ui.role[lang]}</span><span>Côte d’Ivoire</span></p>
+        <h1 class="hero__title" id="hero-title" data-split="lines" data-intro>{ui.tagline[lang]}</h1>
+        <p class="hero__lead">{home.lead[lang]}</p>
+        <div class="hero__ctas" data-reveal="up" data-intro data-delay="0.5">
+          <Btn href="#divisions" label={home.ctaPrimary[lang]} variant="light" />
+          <Btn href={routes.contact[lang]} label={home.ctaSecondary[lang]} variant="line" />
+        </div>
+        <div class="board" data-reveal="up" data-intro data-delay="0.65">
+          <p class="board__title">{home.boardTitle[lang]}</p>
+          <ul class="board__rows">
+            {divisions.map((d) => (
+              <li>
+                <a class="board__row" href={routes[d.key][lang]} data-flap-trigger style={`--field:${d.field}`}>
+                  <span class="board__no">{d.no}</span>
+                  <span class="board__name">{d.short[lang]}</span>
+                  <Flap codes={d.codes} label={d.codeLabel[lang]} size="m" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <button class="board__pause" type="button" data-flap-pause aria-pressed="false" data-label-pause={ui.pause[lang]} data-label-play={ui.play[lang]}>
+            <span class="board__pause-icon" aria-hidden="true"></span><span class="board__pause-text">{ui.pause[lang]}</span>
+          </button>
+        </div>
+      </div>
+
+      <h2 class="sr-only">{chain.title[lang]}</h2>
+      {chain.steps.map((s, i) => (
+        <article class={`chain__chapter chain__chapter--${i % 2 ? 'right' : 'left'}`} data-chain-step={i + 1} aria-labelledby={`step-${i}`}>
+          <div class="chapter__card">
+            <p class="chapter__label"><span class="chapter__no">{String(i + 1).padStart(2, '0')}</span>{s.label[lang]}</p>
+            <h3 class="chapter__title" id={`step-${i}`} data-split="lines">{s.title[lang]}</h3>
+            <p class="chapter__text" data-reveal="fade">{s.text[lang]}</p>
+          </div>
+        </article>
+      ))}
+      <div class="chain__close" data-chain-step="7">
+        <p class="chain__close-text" data-split="words">{chain.close[lang]}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. STATEMENT -->
+  <section class="statement" data-tone-section="light" aria-labelledby="statement-title">
+    <p class="statement__label" id="statement-title">{home.statementLabel[lang]}</p>
+    <p class="statement__text" data-split="lines">{home.statement[lang]}</p>
+    <figure class="statement__photo">
+      <div class="frame" data-gl><Image src={siat} alt={lang === 'fr' ? 'Représentant d’ONYX PLUS GROUP devant la bannière du forum SIAT 2026' : 'ONYX PLUS GROUP representative in front of the SIAT 2026 forum banner'} widths={[400, 640, 900]} sizes="(max-width: 767px) 70vw, 26vw" /></div>
+      <figcaption>{field[3].caption[lang]}</figcaption>
+    </figure>
+    <div class="statement__more">
+      <p>{home.statementMore[lang]}</p>
+      <a class="link" href={routes.group[lang]}>{home.statementLink[lang]}</a>
+    </div>
+  </section>
+
+  <!-- 3. DIVISIONS -->
+  <section class="divisions" id="divisions" data-tone-section="light" aria-labelledby="divisions-title">
+    <h2 class="section-title" id="divisions-title" data-split="lines">{home.divisionsTitle[lang]}</h2>
+    {divisions.map((d, i) => (
+      <article class={`division division--${d.key} ${i % 2 ? 'division--flip' : ''}`} style={`--field:${d.field}`} aria-labelledby={`div-${d.key}`}>
+        <div class="division__media">
+          <figure class="frame" data-gl>
+            <Image src={divImg[d.key]} alt="" widths={[600, 900, 1300]} sizes="(max-width: 767px) 100vw, 55vw" />
+          </figure>
+          {d.key !== 'agro' && <span class="tag">{ui.illustration[lang]}</span>}
+        </div>
+        <div class="division__body">
+          <p class="division__no">{d.no} <Flap codes={d.codes} label={d.codeLabel[lang]} size="s" tone="light" /></p>
+          <h3 class="division__name" id={`div-${d.key}`}>{d.name[lang]}</h3>
+          <p class="division__line">{d.line[lang]}</p>
+          <ul class="division__offers">
+            {d.offers.slice(0, 4).map((o) => <li>{o.title[lang]}</li>)}
+          </ul>
+          <p class="division__for"><span>{home.forWhom[lang]}</span> {d.audiences.map((a) => a[lang]).join(', ')}.</p>
+          <Btn href={routes[d.key][lang]} label={home.divisionLink[lang]} variant="solid" />
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <!-- 4. PROJECT -->
+  <section class="project" data-tone-section="dark" aria-labelledby="project-title">
+    <figure class="project__media">
+      <Image data-parallax="0.08" src={rawWarehouse} alt={lang === 'fr' ? 'Stock de noix de cajou brutes en sacs de jute dans un entrepôt' : 'Raw cashew nuts stacked in jute bags in a warehouse'} widths={[800, 1280, 1800]} sizes="100vw" />
+    </figure>
+    <div class="project__body">
+      <p class="project__label">{home.projectLabel[lang]}</p>
+      <h2 class="project__title" id="project-title" data-split="lines">{home.projectTitle[lang]}</h2>
+      <p class="project__text">{home.projectText[lang]}</p>
+      <dl class="facts">
+        {home.projectFacts.map((f) => <div><dt>{f.k[lang]}</dt><dd>{f.v[lang]}</dd></div>)}
+      </dl>
+      <Btn href={routes.projects[lang]} label={home.projectLink[lang]} variant="light" />
+    </div>
+  </section>
+
+  <!-- 5. FIELD -->
+  <section class="fieldwall" data-tone-section="light" aria-labelledby="field-title">
+    <div class="fieldwall__head">
+      <p class="eyebrow">{home.fieldLabel[lang]}</p>
+      <h2 class="section-title" id="field-title" data-split="lines">{home.fieldTitle[lang]}</h2>
+    </div>
+    <div class="fieldwall__grid">
+      {field.filter((f) => f.img !== 'siat-forum').map((f, i) => (
+        <figure class={`fieldwall__item fieldwall__item--${i}`}>
+          <div class="frame" data-gl><Image src={fieldImgs[f.img]} alt={f.caption[lang]} widths={[400, 700]} sizes="(max-width: 767px) 80vw, 30vw" /></div>
+          <figcaption>{f.caption[lang]}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- 6. PARTNERS -->
+  <section class="partners" data-tone-section="light" aria-labelledby="partners-title">
+    <p class="eyebrow">{home.partnersLabel[lang]}</p>
+    <h2 class="section-title" id="partners-title" data-split="lines">{home.partnersTitle[lang]}</h2>
+    <ul class="index">
+      {partners.map((p, i) => (
+        <li>
+          <a class="index__row" href={routes.contact[lang]}>
+            <span class="index__no">{String(i + 1).padStart(2, '0')}</span>
+            <span class="index__who">{p.who[lang]}</span>
+            <span class="index__what">{p.what[lang]}</span>
+            <span class="index__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" /></svg></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

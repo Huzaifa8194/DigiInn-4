@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Flap from '../components/Flap.astro';
+import DivisionCta from '../components/DivisionCta.astro';
+import { divisions, divisionPage, ui, type Lang } from '../data/site';
+import wing from '../assets/img/travel-wing.jpg';
+import fair from '../assets/img/trade-fair.jpg';
+import outdoor from '../assets/img/siat-outdoor.jpg';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = divisions[2];
+const p = divisionPage.travel;
+const c = divisionPage.common;
+---
+<Base lang={lang} page="travel" title={p.title[lang]} description={p.description[lang]}>
+  <PageHero no={d.no} eyebrow={d.short[lang]} title={d.name[lang]} intro={d.line[lang]} codes={d.codes} codeLabel={d.codeLabel[lang]} field={d.field}>
+    <div class="departures" aria-labelledby="dep-title">
+      <div class="departures__head">
+        <h2 class="departures__title" id="dep-title">{p.boardTitle[lang]}</h2>
+        <span class="departures__from"><Flap codes={['ABJ']} size="m" cycle={false} /> {p.from[lang]}</span>
+      </div>
+      <ul class="departures__rows">
+        {p.boardRows.map((r) => (
+          <li class="departures__row">
+            <Flap codes={[r.code]} size="l" cycle={false} label={r.city[lang]} />
+            <span class="departures__city">{r.city[lang]}</span>
+            <span class="departures__service">{r.service[lang]}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="departures__note">{p.boardText[lang]}</p>
+    </div>
+  </PageHero>
+
+  <section class="block block--intro" data-tone-section="light">
+    <p class="statement__text">{d.intro[lang]}</p>
+  </section>
+
+  <section class="block block--offers" data-tone-section="light" aria-labelledby="offers-title">
+    <h2 class="section-title" id="offers-title" data-split="lines">{c.offersTitle[lang]}</h2>
+    <ul class="offers offers--six">
+      {d.offers.map((o, i) => <li class="offer"><span class="offer__no">{String(i + 1).padStart(2, '0')}</span><h3 class="offer__t">{o.title[lang]}</h3><p>{o.text[lang]}</p></li>)}
+    </ul>
+  </section>
+
+  <section class="trip" data-tone-section="light" aria-labelledby="trip-title">
+    <div class="trip__media">
+      <figure class="trip__a"><div class="frame" data-gl><Image src={outdoor} alt={lang === 'fr' ? 'Représentant d’ONYX PLUS GROUP en déplacement, badge VIP' : 'ONYX PLUS GROUP representative travelling, VIP badge'} widths={[400, 700]} sizes="(max-width: 900px) 60vw, 26vw" /></div></figure>
+      <figure class="trip__b"><div class="frame" data-gl><Image src={fair} alt={lang === 'fr' ? 'Sur un salon international' : 'At an international trade fair'} widths={[400, 700]} sizes="(max-width: 900px) 50vw, 20vw" /></div></figure>
+      <figure class="trip__c"><div class="frame" data-gl><Image src={wing} alt="" widths={[600, 1000]} sizes="(max-width: 900px) 90vw, 36vw" /></div><span class="tag">{ui.illustration[lang]}</span></figure>
+    </div>
+    <div class="trip__body">
+      <h2 class="section-title" id="trip-title" data-split="lines">{p.stepsTitle[lang]}</h2>
+      <ol class="trip__steps">
+        {p.steps.map((s, i) => <li><span class="process__no">{String(i + 1).padStart(2, '0')}</span><h3 class="process__t">{s.t[lang]}</h3><p class="process__d">{s.d[lang]}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <DivisionCta lang={lang} current="travel" />
+</Base>

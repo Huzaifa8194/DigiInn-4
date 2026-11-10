@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact, partners, site, type Lang } from '../data/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const f = contact.form;
+---
+<Base lang={lang} page="contact" title={contact.title[lang]} description={contact.description[lang]}>
+  <PageHero eyebrow={contact.title[lang]} title={contact.h1[lang]} intro={contact.intro[lang]} />
+
+  <section class="contact" data-tone-section="light" aria-label={contact.title[lang]}>
+    <div class="contact__paths">
+      <ul class="paths">
+        {partners.map((p, i) => (
+          <li class="path"><span class="index__no">{String(i + 1).padStart(2, '0')}</span><h2 class="path__who">{p.who[lang]}</h2><p>{p.what[lang]}</p></li>
+        ))}
+      </ul>
+      <h2 class="eyebrow details__t">{contact.details.title[lang]}</h2>
+      <dl class="details">
+        <div><dt>{contact.details.email[lang]}</dt><dd><a class="link" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+        <div><dt>{contact.details.phone[lang]}</dt><dd>{contact.details.phoneValue[lang]}</dd></div>
+        <div><dt>{contact.details.address[lang]}</dt><dd>{contact.details.addressValue[lang]}</dd></div>
+      </dl>
+    </div>
+
+    <form class="form" data-contact novalidate data-to={site.email} data-msg-required={f.required[lang]} data-msg-email={f.invalidEmail[lang]}>
+      <div class="field">
+        <label for="c-name">{f.name[lang]} <span aria-hidden="true">*</span></label>
+        <input id="c-name" name="name" type="text" autocomplete="name" required aria-describedby="c-name-error" />
+        <p class="field__error" id="c-name-error" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="c-company">{f.company[lang]}</label>
+        <input id="c-company" name="company" type="text" autocomplete="organization" />
+      </div>
+      <div class="field">
+        <label for="c-email">{f.email[lang]} <span aria-hidden="true">*</span></label>
+        <input id="c-email" name="email" type="email" autocomplete="email" required aria-describedby="c-email-error" />
+        <p class="field__error" id="c-email-error" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="c-subject">{f.subject[lang]}</label>
+        <select id="c-subject" name="subject">{f.subjects.map((s) => <option>{s[lang]}</option>)}</select>
+      </div>
+      <div class="field field--full">
+        <label for="c-message">{f.message[lang]} <span aria-hidden="true">*</span></label>
+        <textarea id="c-message" name="message" rows="6" required aria-describedby="c-message-error"></textarea>
+        <p class="field__error" id="c-message-error" aria-live="polite"></p>
+      </div>
+      <div class="form__foot">
+        <button class="btn btn--solid" type="submit" data-fill>
+          <span class="btn__fill" aria-hidden="true"></span>
+          <span class="btn__label"><span>{f.send[lang]}</span><span aria-hidden="true">{f.send[lang]}</span></span>
+          <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>
+        </button>
+        <p class="form__note">{f.note[lang]}</p>
+      </div>
+      <p class="form__status" data-status hidden role="status">{f.ok[lang]} <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </form>
+  </section>
+</Base>

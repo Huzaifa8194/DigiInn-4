@@ -1,0 +1,10 @@
+---
+// Primary action: an onyx (or paper) fill rises from the bottom edge like a flap dropping, the label rolls up.
+interface Props { href: string; label: string; variant?: 'solid' | 'line' | 'light'; class?: string; arrow?: boolean }
+const { href, label, variant = 'solid', class: cls = '', arrow = true } = Astro.props;
+---
+<a class={`btn btn--${variant} ${cls}`} href={href} data-fill>
+  <span class="btn__fill" aria-hidden="true"></span>
+  <span class="btn__label"><span>{label}</span><span aria-hidden="true">{label}</span></span>
+  {arrow && <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>}
+</a>
