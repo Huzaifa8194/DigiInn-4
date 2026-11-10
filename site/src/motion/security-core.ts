@@ -112,12 +112,8 @@ export function initCore(){
  const targetRing=new THREE.Mesh(new THREE.TorusGeometry(.58,.025,8,64),amber);rig.add(targetRing);
  const shock=new THREE.Group();rig.add(shock);const rays:THREE.Mesh[]=[];for(let i=0;i<20;i++){const ray=box(.022,.2,.022,amber,.005);shock.add(ray);rays.push(ray);}
  const seal=new THREE.Mesh(new THREE.TorusGeometry(.75,.035,8,80),cyan);rig.add(seal);
- const callout=document.createElement('div');callout.className='object-callout';host.parentElement?.appendChild(callout);
- const notes=['YOUR CONNECTED BUSINESS','ASSETS MAPPED','EXPOSED ENDPOINT','THREAT BLOCKED','ACCESS VERIFIED','SECURE BY DESIGN'];
- const focusPoint=new THREE.Vector3();
 
  const resize=()=>{renderer.setSize(host.clientWidth,host.clientHeight);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(host);resize();
- const fallback=host.querySelector<SVGElement>('.core-fallback');if(fallback)fallback.style.opacity='0';
  const state={p:0};const story=document.querySelector('.security-story');
  if(story){ScrollTrigger.create({trigger:host.parentElement,start:()=> 'top '+(matchMedia('(max-width: 680px)').matches ? 24 : Math.max(24,(innerHeight-host.parentElement!.offsetHeight)/2))+'px',endTrigger:story,end:'bottom bottom',pin:host.parentElement,pinSpacing:false,invalidateOnRefresh:true});
  const chapters=[...document.querySelectorAll<HTMLElement>('.security-chapter')];
@@ -126,8 +122,6 @@ export function initCore(){
  const positions=[0,...chapters.map(c=>c.getBoundingClientRect().top+self.scroll()+c.clientHeight*.5-innerHeight*.5)];
  const scroll=self.scroll();let target=5;for(let i=1;i<positions.length;i++){if(scroll<=positions[i]){target=i-1+THREE.MathUtils.clamp((scroll-positions[i-1])/(positions[i]-positions[i-1]),0,1);break;}}follow(target);
  }});}
- const caption=document.querySelector('.art-caption>span:nth-child(2)');const label=document.querySelector('.art-label-top');
- const titles=['YOUR BUSINESS, INSIDE','MAP THE CONNECTED SYSTEM','IDENTIFY THE EXPOSED ENDPOINT','INTERCEPT BEFORE IMPACT','VERIFY EVERY CONNECTION','PROTECTION, BUILT IN'];let chapter=-1;
  let visible=true,paused=false,time=0;const io=new IntersectionObserver(e=>visible=e[0].isIntersecting);io.observe(host);
  const tick=(_t:number,dt:number)=>{if(!visible||document.hidden)return;if(!paused)time+=Math.min(dt,40)*.001;
  const p=state.p,open=smooth(.25,1.25,p),close=smooth(4.25,5,p),spread=.65+open*.35-close*.35;
@@ -143,7 +137,6 @@ export function initCore(){
  impact.visible=p>2.8&&p<3.4;impact.position.set(1.3,.5,1.55);impact.scale.setScalar(Math.sin(smooth(2.8,3.4,p)*Math.PI));
  const authorize=smooth(3.2,4,p);lock.visible=true;lock.position.set(1.65,1.1,1.1);lock.scale.setScalar(.62+authorize*.18);shackle.position.y=(1-smooth(3.6,4.1,p))*.3;
  halo.scale.setScalar(.92+spread*.32);halo.rotation.z=time*.06;halo.material= p>3.2?cyan:edgeMetal;
- const current=Math.min(5,Math.floor(p+.4));if(current!==chapter){chapter=current;if(caption)caption.textContent=titles[current];callout.textContent=notes[current];host.parentElement?.setAttribute('data-stage',String(current));gsap.fromTo(callout,{opacity:0,y:12},{opacity:1,y:0,duration:.65,ease:'power3.out'});if(label)label.innerHTML='<span class="cross">+</span> '+['SECURITY BY DESIGN','01 / DISCOVER','02 / INSPECT','03 / DEFEND','04 / VERIFY','05 / SECURE'][current];}
 
  door.rotation.y=-smooth(.35,1.3,p)*1.65+smooth(3.8,4.8,p)*1.65;
  vault.position.y=.1+smooth(.4,1.4,p)*.25-smooth(4,5,p)*.25;
@@ -169,10 +162,8 @@ export function initCore(){
  lock.scale.setScalar(.62+authorize*.18+verification*.38);lock.position.x=1.65-verification*.55;lock.position.z=1.1+verification*.9;
  camera.position.z=15.8-discovery*.7-exposure*.6-verification*.8;
  rim.intensity=40+defending*35+verification*20;rim.color.setHex(exposure>.5?0xf19465:0x81d1ec);
- rig.updateMatrixWorld(true);const anchor=current===2?nodes[1]:current===4?lock:current===3?impact:vault;anchor.getWorldPosition(focusPoint);focusPoint.y+=current===2?.8:1.3;focusPoint.project(camera);
- const area=host.getBoundingClientRect(),parent=host.parentElement!.getBoundingClientRect();callout.style.left=Math.max(15,Math.min(parent.width-190,(focusPoint.x*.5+.5)*area.width+area.left-parent.left))+'px';callout.style.top=Math.max(65,Math.min(parent.height-80,(-focusPoint.y*.5+.5)*area.height+area.top-parent.top))+'px';
- renderer.render(scene,camera);};gsap.ticker.add(tick);
- const button=document.querySelector<HTMLButtonElement>('#motion-toggle');button?.addEventListener('click',()=>{paused=!paused;button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'▷':'Ⅱ';button.setAttribute('aria-label',paused?'Play idle animation':'Pause idle animation');});
+ renderer.render(scene,camera);if(!host.hasAttribute('data-rendered'))host.setAttribute('data-rendered','');};gsap.ticker.add(tick);
+ const button=document.querySelector<HTMLButtonElement>('#motion-toggle');if(button)button.hidden=false;button?.addEventListener('click',()=>{paused=!paused;button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'▷':'Ⅱ';button.setAttribute('aria-label',paused?'Play idle animation':'Pause idle animation');});
  window.addEventListener('pagehide',()=>{gsap.ticker.remove(tick);ro.disconnect();io.disconnect();scene.traverse(o=>{if(o instanceof THREE.Mesh||o instanceof THREE.LineSegments)o.geometry.dispose();});materials.forEach(m=>m.dispose());env.dispose();renderer.dispose();},{once:true});
 }
 

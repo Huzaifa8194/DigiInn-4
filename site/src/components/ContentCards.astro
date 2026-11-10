@@ -24,6 +24,7 @@ const { id, kicker, title, entries, link } = Astro.props;
       <p class="section-kicker">{kicker}</p>
       <h2 id={`${id}-title`}>{title}</h2>
     </div>
+    <BrandGraphic motif={id === "selected-work" ? "window" : "signal"} />
     {link && <a class="text-link dark-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>}
   </div>
   <div class="content-grid">
@@ -36,5 +37,4 @@ const { id, kicker, title, entries, link } = Astro.props;
       </article>
     ))}
   </div>
-  <BrandGraphic motif={id === "selected-work" ? "window" : "signal"} />
 </section>
