@@ -133,39 +133,70 @@ body { --nav-height: 102px; }
 }
 .content-card:focus-within img, .content-card:hover img { transform: scale(1.03); }
 
-.brand-graphic {
-  --graphic-line: #87b7d1;
+.section-graphic {
+  --graphic-line: #9cd1eb;
   --graphic-fill: #13243a;
-  display: block;
-  width: clamp(150px, 17vw, 218px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(176px, 25vw, 335px);
   max-width: 100%;
-  height: auto;
-  flex: none;
+  aspect-ratio: 1.9;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
   color: #e3eef8;
+  border: 1px solid #86b7d164;
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, #86b7d11c 1px, transparent 1px) center / 18px 18px,
+    linear-gradient(#86b7d11c 1px, transparent 1px) center / 18px 18px,
+    radial-gradient(ellipse at center, #28547560, transparent 72%),
+    var(--graphic-fill);
 }
-.brand-graphic-frame { fill: var(--graphic-fill); stroke: var(--graphic-line); stroke-opacity: .65; }
-.brand-graphic-grid { fill: none; stroke: var(--graphic-line); stroke-opacity: .24; }
-.brand-graphic-motif { fill: none; stroke: var(--graphic-line); stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
-.brand-graphic text { fill: currentColor; font: 600 20px Archivo, Arial, sans-serif; }
-.brand-graphic-marker { fill: var(--graphic-line); }
-.paper .brand-graphic, .contact .brand-graphic {
+.section-graphic canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.section-graphic-fallback {
+  width: 31%;
+  height: auto;
+  fill: none;
+  stroke: var(--graphic-line);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.section-graphic[data-animated] .section-graphic-fallback { visibility: hidden; }
+.section-graphic-brand {
+  position: absolute;
+  right: 10px;
+  bottom: 7px;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .05em;
+}
+.paper .section-graphic, .contact .section-graphic {
   --graphic-line: #315978;
   --graphic-fill: #e0e9ee;
   color: #122338;
 }
-section > .brand-graphic {
+section > .section-graphic {
   grid-column: 1 / -1;
   margin-top: 26px;
   justify-self: end;
   margin-inline-start: auto;
 }
 .inner-hero { display: flow-root; }
-.inner-hero > .brand-graphic { float: right; margin: 0 0 18px 24px; }
-.expertise-strip > .brand-graphic {
+.inner-hero > .section-graphic { float: right; margin: 0 0 18px 24px; }
+.expertise-strip > .section-graphic {
   margin-block: 12px;
-  width: 155px;
+  width: 176px;
 }
-.intro-bottom > .brand-graphic { align-self: start; }
+.intro-bottom > .section-graphic { align-self: start; width: min(100%, 335px); }
 .core-brand, .preview-brand {
   position: absolute;
   z-index: 1;
@@ -184,9 +215,25 @@ section > .brand-graphic {
 .product-preview { margin: 24px 0 0; }
 .product-preview .product-image { margin: 0; }
 .preview-brand { top: auto; bottom: 8px; right: 8px; }
-.entry-copy section > .brand-graphic { margin-inline-start: 0; }
+.entry-copy section > .section-graphic { margin-inline-start: 0; }
 
 @media (max-width: 680px) {
-  .inner-hero > .brand-graphic { float: none; margin: 0 0 20px; }
+  .inner-hero > .section-graphic { float: none; margin: 0 0 20px; }
   .core-brand { top: 0; font-size: 9px; padding: 2px 4px; }
 }
+
+.section-graphic-toggle {
+  display: none;
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #86b7d164;
+  border-radius: 2px;
+  background: var(--graphic-fill);
+  color: inherit;
+  font-size: 13px;
+}
+.section-graphic[data-animated] .section-graphic-toggle { display: block; }

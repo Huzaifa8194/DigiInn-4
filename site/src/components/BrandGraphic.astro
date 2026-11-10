@@ -17,10 +17,15 @@ const shapes: Record<Motif, string> = {
   message: 'M13 16h38v25H31L20 49v-8h-7z M21 25h22 M21 32h15',
 };
 ---
-<svg class="brand-graphic" viewBox="0 0 218 70" width="218" height="70" aria-hidden="true" focusable="false">
-  <rect class="brand-graphic-frame" x="1" y="1" width="216" height="68" rx="3" />
-  <path class="brand-graphic-grid" d="M70 1v68 M1 35h69 M35 1v68 M78 55h130" />
-  <path class="brand-graphic-motif" d={shapes[motif]} transform="translate(3 3)" />
-  <text x="81" y="42">DigiInn360</text>
-  <circle class="brand-graphic-marker" cx="202" cy="15" r="3" />
-</svg>
+<figure class="section-graphic" data-section-graphic={motif}>
+  <svg class="section-graphic-fallback" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+    <path d={shapes[motif]} />
+  </svg>
+  <canvas aria-hidden="true" width="360" height="190"></canvas>
+  <button class="section-graphic-toggle" type="button" aria-label="Pause section animation" aria-pressed="false">Ⅱ</button>
+  <span class="section-graphic-brand">DigiInn360</span>
+</figure>
+<script>
+  import { initSectionGraphics } from '../motion/section-graphics';
+  initSectionGraphics();
+</script>
