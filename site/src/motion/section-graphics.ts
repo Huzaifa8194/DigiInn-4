@@ -230,7 +230,7 @@ export function initSectionGraphics() {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.18;
   const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 20);
-  camera.position.set(0, 0.92, 5.0);
+  camera.position.set(0, 0.94, 5.38);
   camera.lookAt(0, 0, 0);
 
   const scene = new THREE.Scene();

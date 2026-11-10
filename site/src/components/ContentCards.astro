@@ -13,19 +13,20 @@ interface Props {
   kicker: string;
   title: string;
   entries: Card[];
+  featured?: boolean;
   link?: { href: string; label: string };
 }
 
-const { id, kicker, title, entries, link } = Astro.props;
+const { id, kicker, title, entries, link, featured } = Astro.props;
 ---
-<section class="content-list paper" id={id} aria-labelledby={`${id}-title`}>
+<section class:list={["content-list", "paper", { "home-collection": featured }]} id={id} aria-labelledby={`${id}-title`}>
   <div class="content-list-heading">
     <div>
       <p class="section-kicker">{kicker}</p>
       <h2 id={`${id}-title`}>{title}</h2>
+      {link && <a class="text-link dark-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>}
     </div>
     <BrandGraphic motif={id === "selected-work" ? "window" : "signal"} />
-    {link && <a class="text-link dark-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>}
   </div>
   <div class="content-grid">
     {entries.map(entry => (
